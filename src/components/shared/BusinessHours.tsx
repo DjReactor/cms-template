@@ -1,33 +1,30 @@
-import type { BusinessHour } from '@/types/index'
+import { BusinessHour } from '@/types';
 
 interface BusinessHoursProps {
-  hours: BusinessHour[]
-  className?: string
+  hours: BusinessHour[];
+  className?: string;
 }
 
-export function BusinessHours({ hours, className = '' }: BusinessHoursProps) {
-  if (!hours || hours.length === 0) return null
+const dayOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-  const daysMap: Record<string, string> = {
-    monday: 'Monday',
-    tuesday: 'Tuesday',
-    wednesday: 'Wednesday',
-    thursday: 'Thursday',
-    friday: 'Friday',
-    saturday: 'Saturday',
-    sunday: 'Sunday'
-  }
+export function BusinessHours({ hours, className = '' }: BusinessHoursProps) {
+  if (!hours || hours.length === 0) return null;
+
+  // Sort hours by logical day order
+  const sortedHours = [...hours].sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
 
   return (
-    <div className={`space-y-3 ${className}`}>
-      {hours?.map((hour) => (
-        <div key={hour.day} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-          <span className="font-medium text-gray-900">{daysMap[hour.day] || hour.day}</span>
-          <span className={hour.enabled ? 'text-gray-600' : 'text-gray-400 italic'}>
-            {hour.enabled ? `${hour.open} - ${hour.close}` : 'Closed'}
-          </span>
-        </div>
-      ))}
-    </div>
-  )
+    <table className={`w-full text-sm ${className}`}>
+      <tbody>
+        {sortedHours.map((hour) => (
+          <tr key={hour.day} className="border-b border-slate-100 last:border-0">
+            <td className="py-2 capitalize font-medium text-slate-700">{hour.day}</td>
+            <td className="py-2 text-right text-slate-600">
+              {hour.enabled ? `${hour.open} - ${hour.close}` : 'Closed'}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }

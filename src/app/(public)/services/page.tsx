@@ -1,24 +1,33 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import { getResolvedCopy } from "@/lib/template";
+import { resolveCopyObject } from "@/lib/template";
 import type { Service } from "@/types";
 
-export default async function ServicesIndexPage() {
+export default async function ServicesIndexPageWrapper() {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo) return null;
-
   const pb = await getPocketBaseClient();
-  const [services, siteContentList] = await Promise.all([
-    pb.collection('services').getFullList<Service>({ filter: 'active = true', sort: 'order' }).catch(() => []),
-    pb.collection('site_content').getFullList({ filter: 'page = "services_index"' }).catch(() => [])
-  ]);
+  
+  let services: Service[] = [];
+  try {
+    services = await pb.collection('services').getFullList<Service>({ filter: 'is_active = true', sort: 'sort_order' });
+  } catch(e) {}
 
-  const resolvedCopy = getResolvedCopy('services_index', siteContentList[0]?.copy_data || {}, businessInfo);
+  const resolvedCopy = resolveCopyObject({
+    heading: `Our {{business_type}} Services`,
+    intro: `Professional and reliable solutions for your needs.`,
+  }, businessInfo);
 
   const template = await loadTemplate(settings.active_template);
-  const Component = template.ServicesIndexPage;
+  const ServicesIndexPageComponent = template.ServicesIndexPage;
 
-  return <Component businessInfo={businessInfo} resolvedCopy={resolvedCopy} services={services} config={settings.template_config || {}} />;
+  return (
+    <ServicesIndexPageComponent
+      services={services}
+      businessInfo={businessInfo}
+      resolvedCopy={resolvedCopy}
+      config={settings.template_config || {}}
+    />
+  );
 }

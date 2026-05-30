@@ -1,19 +1,24 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
-import { getPocketBaseClient } from "@/lib/pocketbase";
-import { getResolvedCopy } from "@/lib/template";
+import { resolveCopyObject } from "@/lib/template";
 
-export default async function ContactPage() {
+export default async function ContactPageWrapper() {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo) return null;
-
-  const pb = await getPocketBaseClient();
-  const siteContentList = await pb.collection('site_content').getFullList({ filter: 'page = "contact"' }).catch(() => []);
-  const resolvedCopy = getResolvedCopy('contact', siteContentList[0]?.copy_data || {}, businessInfo);
+  
+  const resolvedCopy = resolveCopyObject({
+    heading: `Contact Us`,
+    subheading: `Reach out to {{business_name}} today.`,
+  }, businessInfo);
 
   const template = await loadTemplate(settings.active_template);
-  const Component = template.ContactPage;
+  const ContactPageComponent = template.ContactPage;
 
-  return <Component businessInfo={businessInfo} resolvedCopy={resolvedCopy} config={settings.template_config || {}} />;
+  return (
+    <ContactPageComponent
+      businessInfo={businessInfo}
+      resolvedCopy={resolvedCopy}
+      config={settings.template_config || {}}
+    />
+  );
 }

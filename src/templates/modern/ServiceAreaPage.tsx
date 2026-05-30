@@ -1,0 +1,78 @@
+import type { ServiceAreaProps } from '@/types/template';
+import { styles } from './theme';
+import { BlockNoteRenderer } from '@/components/shared/BlockNoteRenderer';
+import Link from 'next/link';
+import { MapPin, Phone } from 'lucide-react';
+
+export function ServiceAreaPage({ area, businessInfo, services, resolvedCopy, config }: ServiceAreaProps) {
+  return (
+    <article className="bg-white">
+      {/* Hero */}
+      <div className="bg-slate-50 py-20 lg:py-28 border-b border-slate-200">
+        <div className={`${styles.container} text-center`}>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-[var(--color-accent)] mb-8">
+            <MapPin className="w-8 h-8" />
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <h1 className={`${styles.headingBase} text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900`}>
+              {resolvedCopy.h1}
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-600 leading-relaxed">
+              {resolvedCopy.intro}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.container}>
+        <div className="grid lg:grid-cols-3 gap-12 lg:gap-20 py-16">
+          
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            <div className="prose prose-lg prose-slate max-w-none">
+              {area.page_content && <BlockNoteRenderer content={area.page_content} />}
+            </div>
+
+            {/* Services List for this Area */}
+            {services.length > 0 && (
+              <div className="mt-16">
+                <h3 className="text-3xl font-bold text-slate-900 mb-8">Services We Offer in {area.name}</h3>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  {services.map(service => (
+                    <Link key={service.id} href={`/services/${service.slug}`} className="p-6 rounded-2xl border border-slate-200 hover:border-[var(--color-accent)] hover:shadow-md transition-all group">
+                      <div className="flex items-center gap-4 mb-3">
+                        <span className="text-2xl">{service.icon}</span>
+                        <h4 className="font-bold text-lg text-slate-900 group-hover:text-[var(--color-accent)] transition-colors">{service.name}</h4>
+                      </div>
+                      <p className="text-slate-600 text-sm">{service.short_description}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar CTA */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-28 bg-[var(--color-accent)] text-white p-8 rounded-3xl shadow-xl text-center">
+              <h3 className="font-bold text-2xl mb-4">Book Your Service in {area.name}</h3>
+              <p className="text-white/80 mb-8">Fast, reliable, and local experts ready to help.</p>
+              
+              {businessInfo.phone && (
+                <a href={`tel:${businessInfo.phone}`} className="w-full bg-white text-[var(--color-accent)] hover:bg-slate-50 transition-colors px-6 py-4 rounded-xl font-bold inline-flex items-center justify-center mb-4 shadow-md">
+                  <Phone className="w-5 h-5 mr-2" />
+                  {businessInfo.phone}
+                </a>
+              )}
+              
+              <Link href="/contact" className="w-full border-2 border-white/30 hover:border-white hover:bg-white/10 transition-colors text-white px-6 py-4 rounded-xl font-bold inline-flex items-center justify-center">
+                Contact Us Online
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </article>
+  );
+}

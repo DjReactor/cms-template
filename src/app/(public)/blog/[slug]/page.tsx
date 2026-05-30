@@ -4,20 +4,39 @@ import { getPocketBaseClient } from "@/lib/pocketbase";
 import type { BlogPost } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params;
+export default async function BlogPostPageWrapper({ params }: { params: { slug: string } }) {
   const settings = await getSettings();
+  if (!settings.blog_enabled) return notFound();
+
   const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo || !settings.blog_enabled) return notFound();
-
   const pb = await getPocketBaseClient();
-  const postList = await pb.collection('blog_posts').getFullList<BlogPost>({ filter: `slug = "${resolvedParams.slug}"` }).catch(() => []);
-  if (postList.length === 0) return notFound();
-
-  const recentPosts = await pb.collection('blog_posts').getList<BlogPost>(1, 3, { filter: `id != "${postList[0].id}" && status = "published"`, sort: '-published_at' }).then(r => r.items).catch(() => []);
+  
+  let post: BlogPost;
+  let relatedPosts: BlogPost[] = [];
+  
+  try {
+    const record = await pb.collection('blog_posts').getFirstListItem<BlogPost>(`slug="${params.slug}" && status="published"`);
+    post = record;
+    
+    // Get latest 3 posts excluding current
+    const related = await pb.collection('blog_posts').getList<BlogPost>(1, 3, {
+      filter: `status="published" && id != "${post.id}"`,
+      sort: '-published_at'
+    });
+    relatedPosts = related.items;
+  } catch(e) {
+    return notFound();
+  }
 
   const template = await loadTemplate(settings.active_template);
-  const Component = template.BlogPostPage;
+  const BlogPostPageComponent = template.BlogPostPage;
 
-  return <Component businessInfo={businessInfo} post={postList[0]} recentPosts={recentPosts} config={settings.template_config || {}} />;
+  return (
+    <BlogPostPageComponent
+      post={post}
+      businessInfo={businessInfo}
+      relatedPosts={relatedPosts}
+      config={settings.template_config || {}}
+    />
+  );
 }

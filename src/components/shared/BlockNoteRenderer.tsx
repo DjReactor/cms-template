@@ -1,14 +1,23 @@
+'use client';
+import '@blocknote/core/fonts/inter.css';
+import '@blocknote/react/style.css';
+import { BlockNoteView } from '@blocknote/react';
+import { useCreateBlockNote } from '@blocknote/react';
+import { PartialBlock } from '@blocknote/core';
+
 interface BlockNoteRendererProps {
-  content: Record<string, unknown>
-  className?: string
+  content: Record<string, unknown>;
+  className?: string;
 }
 
 export function BlockNoteRenderer({ content, className = '' }: BlockNoteRendererProps) {
-  // Very basic mock renderer since the real one would require BlockNote dependencies
+  const editor = useCreateBlockNote({
+    initialContent: Array.isArray(content) ? (content as PartialBlock[]) : undefined,
+  });
+
   return (
-    <div className={className}>
-      <p>Content rendered successfully. (Mock implementation)</p>
-      {/* In a real app, this would iterate through BlockNote JSON and render HTML blocks */}
+    <div className={`prose max-w-none ${className}`}>
+      <BlockNoteView editor={editor} editable={false} theme="light" />
     </div>
-  )
+  );
 }

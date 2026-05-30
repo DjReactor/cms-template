@@ -1,31 +1,41 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import { getResolvedCopy } from "@/lib/template";
 import type { BlogPost } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function BlogIndexPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  const resolvedSearchParams = await searchParams;
+export default async function BlogIndexPageWrapper({ searchParams }: { searchParams: { page?: string } }) {
   const settings = await getSettings();
-  const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo || !settings.blog_enabled) return notFound();
+  if (!settings.blog_enabled) return notFound();
 
-  const page = parseInt(resolvedSearchParams.page || '1', 10);
+  const businessInfo = await getBusinessInfo();
   const pb = await getPocketBaseClient();
-  const result = await pb.collection('blog_posts').getList<BlogPost>(page, 10, { filter: 'status = "published"', sort: '-published_at' }).catch(() => null);
   
-  const siteContentList = await pb.collection('site_content').getFullList({ filter: 'page = "blog_index"' }).catch(() => []);
-  const resolvedCopy = getResolvedCopy('blog_index', siteContentList[0]?.copy_data || {}, businessInfo);
+  const page = parseInt(searchParams.page || '1');
+  const perPage = 12;
+  
+  let posts: BlogPost[] = [];
+  let totalPages = 1;
+  
+  try {
+    const result = await pb.collection('blog_posts').getList<BlogPost>(page, perPage, { 
+      filter: 'status = "published"',
+      sort: '-published_at'
+    });
+    posts = result.items;
+    totalPages = result.totalPages;
+  } catch(e) {}
 
   const template = await loadTemplate(settings.active_template);
-  const Component = template.BlogIndexPage;
+  const BlogIndexPageComponent = template.BlogIndexPage;
 
-  return <Component 
-    businessInfo={businessInfo} 
-    resolvedCopy={resolvedCopy} 
-    posts={result?.items || []} 
-    pagination={{ currentPage: page, totalPages: result?.totalPages || 1, hasNext: page < (result?.totalPages || 1), hasPrev: page > 1 }}
-    config={settings.template_config || {}} 
-  />;
+  return (
+    <BlogIndexPageComponent
+      posts={posts}
+      businessInfo={businessInfo}
+      currentPage={page}
+      totalPages={totalPages}
+      config={settings.template_config || {}}
+    />
+  );
 }

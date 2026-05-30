@@ -1,113 +1,121 @@
-import type { ReactNode } from 'react';
-import type { BusinessInfo, Service, ServiceArea, Testimonial, BlogPost, Settings } from './index';
+import { 
+  BusinessInfo, 
+  Service, 
+  ServiceArea, 
+  Testimonial, 
+  BlogPost, 
+  MediaItem, 
+  TemplateSettings,
+  BeforeAfterPair
+} from './index';
 
-export type TemplateConfig = Record<string, any>;
-export type ResolvedCopy = Record<string, string>;
+export type TemplateConfig = Record<string, string | boolean>
+
+export type ResolvedCopy = Record<string, string>
 
 export interface LayoutProps {
-  children: ReactNode;
-  businessInfo: BusinessInfo;
-  serviceAreas: ServiceArea[];
-  settings: Settings;
-  config: TemplateConfig;
+  children: React.ReactNode
+  businessInfo: BusinessInfo
+  serviceAreas: ServiceArea[]
+  settings: TemplateSettings
+  config: TemplateConfig
 }
 
 export interface HeaderProps {
-  businessInfo: BusinessInfo;
-  serviceAreas: ServiceArea[];
-  blogEnabled: boolean;
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  serviceAreas: ServiceArea[]
+  blogEnabled: boolean
+  config: TemplateConfig
 }
 
 export interface FooterProps {
-  businessInfo: BusinessInfo;
-  services: Service[];
-  serviceAreas: ServiceArea[];
-  settings: Settings;
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  services: Service[]
+  serviceAreas: ServiceArea[]
+  settings: TemplateSettings
+  config: TemplateConfig
 }
 
 export interface HomePageProps {
-  businessInfo: BusinessInfo;
-  resolvedCopy: ResolvedCopy;
-  services: Service[];
-  serviceAreas: ServiceArea[];
-  testimonials: Testimonial[];
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  resolvedCopy: ResolvedCopy
+  services: Service[]
+  serviceAreas: ServiceArea[]
+  testimonials: Testimonial[]
+  media: MediaItem[]
+  beforeAfterPairs: BeforeAfterPair[]
+  config: TemplateConfig
 }
 
 export interface AboutPageProps {
-  businessInfo: BusinessInfo;
-  resolvedCopy: ResolvedCopy;
-  testimonials: Testimonial[];
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  serviceAreas: ServiceArea[]
+  resolvedCopy: ResolvedCopy
+  config: TemplateConfig
 }
 
 export interface ContactPageProps {
-  businessInfo: BusinessInfo;
-  resolvedCopy: ResolvedCopy;
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  resolvedCopy: ResolvedCopy
+  config: TemplateConfig
 }
 
 export interface ServicesIndexProps {
-  businessInfo: BusinessInfo;
-  resolvedCopy: ResolvedCopy;
-  services: Service[];
-  config: TemplateConfig;
+  services: Service[]
+  businessInfo: BusinessInfo
+  resolvedCopy: ResolvedCopy
+  config: TemplateConfig
 }
 
 export interface ServiceDetailProps {
-  businessInfo: BusinessInfo;
-  service: Service;
-  serviceAreas: ServiceArea[];
-  config: TemplateConfig;
+  service: Service
+  businessInfo: BusinessInfo
+  serviceAreas: ServiceArea[]
+  beforeAfterPairs: BeforeAfterPair[]
+  config: TemplateConfig
 }
 
 export interface ServiceAreaProps {
-  businessInfo: BusinessInfo;
-  area: ServiceArea;
-  services: Service[];
-  config: TemplateConfig;
+  area: ServiceArea
+  businessInfo: BusinessInfo
+  resolvedCopy: ResolvedCopy
+  services: Service[]
+  config: TemplateConfig
 }
 
 export interface BlogIndexProps {
-  businessInfo: BusinessInfo;
-  resolvedCopy: ResolvedCopy;
-  posts: BlogPost[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-  config: TemplateConfig;
+  posts: BlogPost[]
+  businessInfo: BusinessInfo
+  currentPage: number
+  totalPages: number
+  config: TemplateConfig
 }
 
 export interface BlogPostProps {
-  businessInfo: BusinessInfo;
-  post: BlogPost;
-  recentPosts: BlogPost[];
-  config: TemplateConfig;
+  post: BlogPost
+  businessInfo: BusinessInfo
+  relatedPosts: BlogPost[]
+  config: TemplateConfig
 }
 
 export interface StaticPageProps {
-  businessInfo: BusinessInfo;
-  content: string; // pre-rendered HTML
-  config: TemplateConfig;
+  businessInfo: BusinessInfo
+  pageContent: string
+  config: TemplateConfig
 }
 
 export interface TemplatePack {
-  Layout: React.ComponentType<LayoutProps>;
-  Header: React.ComponentType<HeaderProps>;
-  Footer: React.ComponentType<FooterProps>;
-  HomePage: React.ComponentType<HomePageProps>;
-  AboutPage: React.ComponentType<AboutPageProps>;
-  ContactPage: React.ComponentType<ContactPageProps>;
-  ServicesIndexPage: React.ComponentType<ServicesIndexProps>;
-  ServiceDetailPage: React.ComponentType<ServiceDetailProps>;
-  ServiceAreaPage: React.ComponentType<ServiceAreaProps>;
-  BlogIndexPage: React.ComponentType<BlogIndexProps>;
-  BlogPostPage: React.ComponentType<BlogPostProps>;
-  PrivacyPage: React.ComponentType<StaticPageProps>;
-  TermsPage: React.ComponentType<StaticPageProps>;
+  Layout: React.FC<LayoutProps>
+  Header: React.FC<HeaderProps>
+  Footer: React.FC<FooterProps>
+  HomePage: React.FC<HomePageProps>
+  AboutPage: React.FC<AboutPageProps>
+  ContactPage: React.FC<ContactPageProps>
+  ServicesIndexPage: React.FC<ServicesIndexProps>
+  ServiceDetailPage: React.FC<ServiceDetailProps>
+  ServiceAreaPage: React.FC<ServiceAreaProps>
+  BlogIndexPage: React.FC<BlogIndexProps>
+  BlogPostPage: React.FC<BlogPostProps>
+  PrivacyPage: React.FC<StaticPageProps>
+  TermsPage: React.FC<StaticPageProps>
 }

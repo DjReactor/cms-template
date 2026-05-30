@@ -1,32 +1,26 @@
-import type { BusinessInfo, ServiceArea, ResolvedCopy } from '@/types';
+import { BusinessInfo } from '@/types';
 
-export function resolveVariables(text: string, vars: Record<string, string>): string {
+/**
+ * Resolves standard template variables inside a string.
+ * Example: "Welcome to {{business_name}}" -> "Welcome to Apex Plumbing"
+ */
+export function resolveTemplateTokens(text: string, businessInfo: BusinessInfo): string {
   if (!text) return '';
-  return text.replace(/\{\{([^{}]+)\}\}/g, (match, key) => {
-    const trimmedKey = key.trim();
-    return vars[trimmedKey] !== undefined ? vars[trimmedKey] : match;
-  });
+  
+  return text
+    .replace(/\{\{business_name\}\}/g, businessInfo.business_name || '')
+    .replace(/\{\{city\}\}/g, businessInfo.city || '')
+    .replace(/\{\{phone\}\}/g, businessInfo.phone || '')
+    .replace(/\{\{business_type\}\}/g, businessInfo.business_type || '');
 }
 
-export function getResolvedCopy(
-  page: string,
-  copyData: Record<string, string> | null,
-  businessInfo: BusinessInfo,
-  area?: ServiceArea
-): ResolvedCopy {
-  if (!copyData) return {};
-  
-  const vars: Record<string, string> = {
-    business_name: businessInfo.business_name || '',
-    phone: businessInfo.phone || '',
-    city: businessInfo.city || '',
-    service_area: area ? area.name : businessInfo.city || '',
-  };
-
-  const resolved: ResolvedCopy = {};
-  for (const [key, value] of Object.entries(copyData)) {
-    resolved[key] = resolveVariables(value, vars);
+/**
+ * Convenience method to resolve multiple strings at once
+ */
+export function resolveCopyObject(copyMap: Record<string, string>, businessInfo: BusinessInfo): Record<string, string> {
+  const resolved: Record<string, string> = {};
+  for (const [key, value] of Object.entries(copyMap)) {
+    resolved[key] = resolveTemplateTokens(value, businessInfo);
   }
-  
   return resolved;
 }

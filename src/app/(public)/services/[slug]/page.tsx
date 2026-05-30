@@ -1,23 +1,37 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import type { Service, ServiceArea } from "@/types";
+import type { Service, ServiceArea, BeforeAfterPair } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params;
+export default async function ServiceDetailPageWrapper({ params }: { params: { slug: string } }) {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo) return null;
-
   const pb = await getPocketBaseClient();
-  const serviceList = await pb.collection('services').getFullList<Service>({ filter: `slug = "${resolvedParams.slug}"` }).catch(() => []);
-  if (serviceList.length === 0) return notFound();
   
-  const serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ sort: 'name' }).catch(() => []);
+  let service: Service;
+  let serviceAreas: ServiceArea[] = [];
+  let beforeAfterPairs: BeforeAfterPair[] = [];
+  
+  try {
+    const record = await pb.collection('services').getFirstListItem<Service>(`slug="${params.slug}" && is_active=true`);
+    service = record;
+    serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ filter: 'is_active = true', sort: 'sort_order' });
+    beforeAfterPairs = await pb.collection('before_after_pairs').getFullList<BeforeAfterPair>({ filter: 'is_active = true', sort: 'sort_order' });
+  } catch(e) {
+    return notFound();
+  }
 
   const template = await loadTemplate(settings.active_template);
-  const Component = template.ServiceDetailPage;
+  const ServiceDetailPageComponent = template.ServiceDetailPage;
 
-  return <Component businessInfo={businessInfo} service={serviceList[0]} serviceAreas={serviceAreas} config={settings.template_config || {}} />;
+  return (
+    <ServiceDetailPageComponent
+      service={service}
+      businessInfo={businessInfo}
+      serviceAreas={serviceAreas}
+      beforeAfterPairs={beforeAfterPairs}
+      config={settings.template_config || {}}
+    />
+  );
 }

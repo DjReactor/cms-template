@@ -1,36 +1,69 @@
-import { NextResponse } from 'next/server';
 import { getPocketBaseClient } from '@/lib/pocketbase';
-import type { MediaItem } from '@/types';
+import type { MediaItem, BlogPost, Service } from '@/types';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   const pb = await getPocketBaseClient();
-  const media = await pb.collection('media').getFullList<MediaItem>().catch(() => []);
-  const domain = process.env.SITE_URL || 'http://localhost:3000';
+  const baseUrl = process.env.SITE_URL || 'http://localhost:3000';
+  
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
 
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url>
-    <loc>${domain}</loc>`;
-    
-  media.forEach(m => {
-    if (m.url || m.file) {
-      const url = m.url || `${domain}/api/files/media/${m.id}/${m.file}`;
-      xml += `
-    <image:image>
-      <image:loc>${url}</image:loc>
-      <image:caption>${m.alt_text || ''}</image:caption>
-    </image:image>`;
+  try {
+    // Add gallery/hero media
+    const media = await pb.collection('media').getFullList<MediaItem>();
+    media.forEach(item => {
+      if (item.url) {
+        xml += `  <url>\n`;
+        xml += `    <loc>${baseUrl}</loc>\n`;
+        xml += `    <image:image>\n`;
+        xml += `      <image:loc>${item.url}</image:loc>\n`;
+        if (item.alt_text) xml += `      <image:title>${item.alt_text}</image:title>\n`;
+        xml += `    </image:image>\n`;
+        xml += `  </url>\n`;
+      }
+    });
+
+    // Add Service Cover Images
+    const services = await pb.collection('services').getFullList<Service>({ filter: 'is_active = true' });
+    services.forEach(service => {
+      if (service.cover_image_url) {
+        xml += `  <url>\n`;
+        xml += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
+        xml += `    <image:image>\n`;
+        xml += `      <image:loc>${service.cover_image_url}</image:loc>\n`;
+        xml += `      <image:title>${service.name}</image:title>\n`;
+        xml += `    </image:image>\n`;
+        xml += `  </url>\n`;
+      }
+    });
+
+    // Add Blog Cover Images
+    const settings = await pb.collection('settings').getFirstListItem('');
+    if (settings.blog_enabled) {
+      const posts = await pb.collection('blog_posts').getFullList<BlogPost>({ filter: 'status = "published"' });
+      posts.forEach(post => {
+        if (post.cover_image_url) {
+          xml += `  <url>\n`;
+          xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+          xml += `    <image:image>\n`;
+          xml += `      <image:loc>${post.cover_image_url}</image:loc>\n`;
+          xml += `      <image:title>${post.title}</image:title>\n`;
+          xml += `    </image:image>\n`;
+          xml += `  </url>\n`;
+        }
+      });
     }
-  });
+  } catch (error) {
+    console.error('Error generating image sitemap:', error);
+  }
 
-  xml += `
-  </url>
-</urlset>`;
+  xml += `</urlset>`;
 
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml',
-    },
+      'Cache-Control': 'public, max-age=3600, s-maxage=3600'
+    }
   });
 }

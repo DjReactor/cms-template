@@ -1,40 +1,22 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import { getResolvedCopy } from "@/lib/template";
-import type { Testimonial, SiteContent } from "@/types";
-import { generateMetaTitle } from "@/lib/seo";
-import type { Metadata } from "next";
+import { resolveCopyObject } from "@/lib/template";
+import type { ServiceArea } from "@/types";
 
-export async function generateMetadata(): Promise<Metadata> {
+export default async function AboutPageWrapper() {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo) return {};
-
   const pb = await getPocketBaseClient();
-  const siteContentList = await pb.collection('site_content').getFullList<SiteContent>({ filter: 'page = "about"' }).catch(() => []);
-  const metaTitle = siteContentList[0]?.meta_title || "About Us";
-  const seoSettings = await pb.collection('seo_settings').getFullList(1).then(r => r[0]).catch(() => null);
+  
+  let serviceAreas: ServiceArea[] = [];
+  try {
+    serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ filter: 'is_active = true', sort: 'sort_order' });
+  } catch(e) {}
 
-  return {
-    title: generateMetaTitle(metaTitle, seoSettings, businessInfo.business_name),
-    description: siteContentList[0]?.meta_description || `Learn more about ${businessInfo.business_name}.`,
-  };
-}
-
-export default async function AboutPage() {
-  const settings = await getSettings();
-  const businessInfo = await getBusinessInfo();
-  if (!settings || !businessInfo) return null;
-
-  const pb = await getPocketBaseClient();
-  const [testimonials, siteContentList] = await Promise.all([
-    pb.collection('testimonials').getFullList<Testimonial>({ filter: 'visible = true', sort: 'order' }).catch(() => []),
-    pb.collection('site_content').getFullList<SiteContent>({ filter: 'page = "about"' }).catch(() => [])
-  ]);
-
-  const siteContent = siteContentList[0]?.copy_data || {};
-  const resolvedCopy = getResolvedCopy('about', siteContent, businessInfo);
+  const resolvedCopy = resolveCopyObject({
+    heading: `About {{business_name}}`,
+  }, businessInfo);
 
   const template = await loadTemplate(settings.active_template);
   const AboutPageComponent = template.AboutPage;
@@ -42,8 +24,8 @@ export default async function AboutPage() {
   return (
     <AboutPageComponent
       businessInfo={businessInfo}
+      serviceAreas={serviceAreas}
       resolvedCopy={resolvedCopy}
-      testimonials={testimonials}
       config={settings.template_config || {}}
     />
   );

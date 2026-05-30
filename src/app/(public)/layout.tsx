@@ -1,7 +1,8 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import type { ServiceArea } from "@/types";
+import type { ServiceArea, Testimonial, Service } from "@/types";
+import { buildLocalBusinessSchema } from "@/lib/seo";
 
 export default async function PublicLayout({
   children,
@@ -11,36 +12,46 @@ export default async function PublicLayout({
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
   
-  if (!settings || !businessInfo) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Configuration Missing</h1>
-          <p>Please complete the PocketBase seed data step.</p>
-        </div>
-      </div>
-    );
-  }
-
   const pb = await getPocketBaseClient();
   let serviceAreas: ServiceArea[] = [];
+  let testimonials: Testimonial[] = [];
+  let services: Service[] = [];
+  let seoSettings = null;
+  
   try {
-    serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ sort: 'name' });
+    seoSettings = await pb.collection('seo_settings').getFirstListItem('');
+    serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ 
+      filter: 'is_active = true',
+      sort: 'sort_order' 
+    });
+    testimonials = await pb.collection('testimonials').getFullList<Testimonial>({ filter: 'is_visible = true' });
+    services = await pb.collection('services').getFullList<Service>({ filter: 'is_active = true' });
   } catch(e) {
-    console.error('Failed to load service areas', e);
+    console.error('Failed to load data for layout', e);
   }
 
   const template = await loadTemplate(settings.active_template);
   const LayoutComponent = template.Layout;
+  const jsonLd = buildLocalBusinessSchema(businessInfo, seoSettings, testimonials, services, serviceAreas);
 
   return (
-    <LayoutComponent
-      businessInfo={businessInfo}
-      serviceAreas={serviceAreas}
-      settings={settings}
-      config={settings.template_config || {}}
-    >
-      {children}
-    </LayoutComponent>
+    <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body>
+        <LayoutComponent
+          businessInfo={businessInfo}
+          serviceAreas={serviceAreas}
+          settings={settings}
+          config={settings.template_config || {}}
+        >
+          {children}
+        </LayoutComponent>
+      </body>
+    </html>
   );
 }
