@@ -1,0 +1,249 @@
+[
+  {
+    "name": "business_info",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "business_name", "type": "text", "required": true },
+      { "name": "email", "type": "email" },
+      { "name": "phone", "type": "text" },
+      { "name": "address", "type": "text" },
+      { "name": "city", "type": "text" },
+      { "name": "state", "type": "text" },
+      { "name": "zip", "type": "text" },
+      { "name": "business_type", "type": "text" },
+      { "name": "hours", "type": "json" },
+      { "name": "emergency_service", "type": "text" },
+      { "name": "service_radius", "type": "number" },
+      { "name": "social_facebook", "type": "url" },
+      { "name": "social_instagram", "type": "url" },
+      { "name": "social_twitter", "type": "url" },
+      { "name": "google_maps_url", "type": "url" }
+    ]
+  },
+  {
+    "name": "services",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "name", "type": "text", "required": true },
+      { "name": "slug", "type": "text", "required": true },
+      { "name": "short_description", "type": "text" },
+      { "name": "icon", "type": "text" },
+      { "name": "cover_image_url", "type": "url" },
+      { "name": "page_content", "type": "json" },
+      { "name": "meta_title", "type": "text" },
+      { "name": "meta_description", "type": "text" },
+      { "name": "order", "type": "number" },
+      { "name": "active", "type": "bool" }
+    ]
+  },
+  {
+    "name": "service_areas",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "name", "type": "text", "required": true },
+      { "name": "slug", "type": "text", "required": true },
+      { "name": "zip_codes", "type": "text" },
+      { "name": "meta_title", "type": "text" },
+      { "name": "meta_description", "type": "text" }
+    ]
+  },
+  {
+    "name": "testimonials",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "author_name", "type": "text", "required": true },
+      { "name": "author_location", "type": "text" },
+      { "name": "rating", "type": "number", "required": true },
+      { "name": "content", "type": "text", "required": true },
+      { "name": "source", "type": "text" },
+      { "name": "order", "type": "number" },
+      { "name": "visible", "type": "bool" }
+    ]
+  },
+  {
+    "name": "blog_posts",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "title", "type": "text", "required": true },
+      { "name": "slug", "type": "text", "required": true },
+      { "name": "excerpt", "type": "text" },
+      { "name": "content", "type": "json", "required": true },
+      { "name": "cover_image_url", "type": "url" },
+      { "name": "author_type", "type": "text" },
+      { "name": "status", "type": "text" },
+      { "name": "published_at", "type": "date" },
+      { "name": "meta_title", "type": "text" },
+      { "name": "meta_description", "type": "text" }
+    ]
+  },
+  {
+    "name": "media",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "file", "type": "file", "maxSelect": 1 },
+      { "name": "alt_text", "type": "text" },
+      { "name": "category", "type": "text" }
+    ]
+  },
+  {
+    "name": "contacts",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "name", "type": "text", "required": true },
+      { "name": "email", "type": "email" },
+      { "name": "phone", "type": "text" },
+      { "name": "message", "type": "text" },
+      { "name": "source", "type": "text" },
+      { "name": "status", "type": "text" }
+    ]
+  },
+  {
+    "name": "ai_call_logs",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "call_id", "type": "text", "required": true },
+      { "name": "caller_number", "type": "text" },
+      { "name": "transcript", "type": "text" },
+      { "name": "summary", "type": "text" },
+      { "name": "duration", "type": "number" },
+      { "name": "sentiment", "type": "text" }
+    ]
+  },
+  {
+    "name": "settings",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "active_template", "type": "text", "required": true },
+      { "name": "template_config", "type": "json" },
+      { "name": "blog_enabled", "type": "bool" },
+      { "name": "retell_enabled", "type": "bool" },
+      { "name": "reviews_enabled", "type": "bool" },
+      { "name": "updates_enabled", "type": "bool" },
+      { "name": "update_channel", "type": "text" },
+      { "name": "show_powered_by", "type": "bool" },
+      { "name": "blog_webhook_secret", "type": "text" },
+      { "name": "retell_webhook_secret", "type": "text" },
+      { "name": "reviews_webhook_secret", "type": "text" }
+    ]
+  },
+  {
+    "name": "seo_settings",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "schema_business_type", "type": "text" },
+      { "name": "title_separator", "type": "text" },
+      { "name": "enable_breadcrumbs", "type": "bool" },
+      { "name": "enable_aggregate_rating", "type": "bool" },
+      { "name": "noindex_blog", "type": "bool" },
+      { "name": "noindex_service_areas", "type": "bool" }
+    ]
+  },
+  {
+    "name": "redirects",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "source", "type": "text", "required": true },
+      { "name": "destination", "type": "text", "required": true },
+      { "name": "permanent", "type": "bool" },
+      { "name": "hits", "type": "number" }
+    ]
+  },
+  {
+    "name": "seo_404_log",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "path", "type": "text", "required": true },
+      { "name": "referrer", "type": "text" },
+      { "name": "hits", "type": "number" }
+    ]
+  },
+  {
+    "name": "site_content",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "page", "type": "text", "required": true },
+      { "name": "copy_data", "type": "json" },
+      { "name": "meta_title", "type": "text" },
+      { "name": "meta_description", "type": "text" }
+    ]
+  },
+  {
+    "name": "template_meta",
+    "type": "base",
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "fields": [
+      { "name": "current_version", "type": "text" },
+      { "name": "update_available", "type": "bool" },
+      { "name": "last_updated", "type": "date" }
+    ]
+  }
+]

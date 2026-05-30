@@ -1,0 +1,29 @@
+{
+  "business_info": {
+    "hours": [
+      {"day": "monday", "enabled": true, "open": "08:00 am", "close": "06:00 pm"},
+      {"day": "tuesday", "enabled": true, "open": "08:00 am", "close": "06:00 pm"},
+      {"day": "wednesday", "enabled": true, "open": "08:00 am", "close": "06:00 pm"},
+      {"day": "thursday", "enabled": true, "open": "08:00 am", "close": "06:00 pm"},
+      {"day": "friday", "enabled": true, "open": "08:00 am", "close": "06:00 pm"},
+      {"day": "saturday", "enabled": false, "open": "09:00 am", "close": "04:00 pm"},
+      {"day": "sunday", "enabled": false, "open": "09:00 am", "close": "01:00 pm"}
+    ],
+    "emergency_service": "No",
+    "service_radius": 25
+  },
+  "settings": {
+    "blog_enabled": false,
+    "retell_enabled": false,
+    "reviews_enabled": false,
+    "updates_enabled": true,
+    "show_powered_by": false
+  },
+  "seo_settings": {
+    "title_separator": "|",
+    "enable_breadcrumbs": true,
+    "enable_aggregate_rating": true,
+    "noindex_blog": false,
+    "noindex_service_areas": false
+  }
+}
