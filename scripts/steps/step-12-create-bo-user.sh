@@ -20,9 +20,16 @@ wait_for_http "http://127.0.0.1:${PB_PORT}/api/health" 15 2 || exit_fail "Pocket
 TOKEN=$(pb_authenticate "http://127.0.0.1:${PB_PORT}" "admin@successforce.com" "$PB_ADMIN_PW")
 [ -z "$TOKEN" ] && exit_fail "PB auth failed"
 
-USER_RESP=$(pb_api "$TOKEN" POST \
-  "http://127.0.0.1:${PB_PORT}/api/collections/users/records" \
-  "{\"email\":\"$BO_EMAIL\",\"password\":\"$BO_PW\",\"passwordConfirm\":\"$BO_PW\",\"role\":\"business_owner\",\"display_name\":$(echo "$BUSINESS_NAME Admin" | jq -Rs .),\"emailVisibility\":true,\"verified\":true,\"must_change_password\":true}")
+EXISTING_USER=$(pb_api "$TOKEN" GET "http://127.0.0.1:${PB_PORT}/api/collections/users/records?filter=(email='$(echo "$BO_EMAIL" | jq -R -r @uri)')")
+EXISTING_ID=$(echo "$EXISTING_USER" | jq -r '.items[0].id // empty')
+
+PAYLOAD="{\"email\":\"$BO_EMAIL\",\"password\":\"$BO_PW\",\"passwordConfirm\":\"$BO_PW\",\"role\":\"business_owner\",\"display_name\":$(echo "$BUSINESS_NAME Admin" | jq -Rs .),\"emailVisibility\":true,\"verified\":true,\"must_change_password\":true}"
+
+if [ -n "$EXISTING_ID" ]; then
+  USER_RESP=$(pb_api "$TOKEN" PATCH "http://127.0.0.1:${PB_PORT}/api/collections/users/records/$EXISTING_ID" "$PAYLOAD")
+else
+  USER_RESP=$(pb_api "$TOKEN" POST "http://127.0.0.1:${PB_PORT}/api/collections/users/records" "$PAYLOAD")
+fi
 
 USER_ID=$(echo "$USER_RESP" | jq -r '.id // empty')
 [ -z "$USER_ID" ] && \
