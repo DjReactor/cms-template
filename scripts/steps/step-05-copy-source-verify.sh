@@ -11,7 +11,7 @@ BASE="/opt/sf-instances/${SLUG}"
 ERRORS=()
 REQUIRED_FILES=(
   "$BASE/src" "$BASE/public" "$BASE/package.json" "$BASE/pnpm-lock.yaml"
-  "$BASE/next.config.js" "$BASE/tailwind.config.ts" "$BASE/tsconfig.json"
+  "$BASE/next.config.ts" "$BASE/tsconfig.json"
   "$BASE/pb_schema/schema.json" "$BASE/pb_seed/defaults.json"
   "$BASE/pb_migrations" "$BASE/pocketbase" "$BASE/.sf-version"
 )
