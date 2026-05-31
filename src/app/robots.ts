@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getSeoSettings } from '@/lib/settings';
+import { getSettings } from '@/lib/settings';
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const baseUrl = process.env.SITE_URL || 'http://localhost:3000';
-  const seoSettings = await getSeoSettings();
+  const seoSettings = await getSettings();
 
   return {
     rules: {

@@ -9,8 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@blocknote/ariakit": "^0.51.3",
     "@blocknote/core": "^0.51.3",
+    "@blocknote/mantine": "^0.51.3",
     "@blocknote/react": "^0.51.3",
+    "@blocknote/shadcn": "^0.51.3",
     "@hookform/resolvers": "^5.4.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.3.0",
