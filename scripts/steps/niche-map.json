@@ -1,9 +1,26 @@
 {
-  "plumber": { "business_type": "Plumber", "schema_type": "Plumber" },
-  "hvac": { "business_type": "HVAC Company", "schema_type": "HVACBusiness" },
-  "electrician": { "business_type": "Electrician", "schema_type": "Electrician" },
-  "roofing": { "business_type": "Roofing Contractor", "schema_type": "RoofingContractor" },
-  "landscaping": { "business_type": "Landscaping Services", "schema_type": "HomeAndConstructionBusiness" },
-  "pest_control": { "business_type": "Pest Control Services", "schema_type": "HomeAndConstructionBusiness" },
-  "cleaning": { "business_type": "Cleaning Services", "schema_type": "HomeAndConstructionBusiness" }
+  "plumber": {
+    "business_type": "Plumber",
+    "schema_type": "Plumber"
+  },
+  "roofer": {
+    "business_type": "Roofer",
+    "schema_type": "RoofingContractor"
+  },
+  "hvac": {
+    "business_type": "HVAC",
+    "schema_type": "HVACBusiness"
+  },
+  "electrician": {
+    "business_type": "Electrician",
+    "schema_type": "Electrician"
+  },
+  "landscaper": {
+    "business_type": "Landscaper",
+    "schema_type": "LandscapingBusiness"
+  },
+  "other": {
+    "business_type": "Local Business",
+    "schema_type": "LocalBusiness"
+  }
 }
