@@ -30,7 +30,7 @@ done
 
 # Verify key fields exist on settings (added by v1.2 migration)
 SETTINGS_SCHEMA=$(pb_api "$TOKEN" GET "http://127.0.0.1:${PB_PORT}/api/collections/settings")
-echo "$SETTINGS_SCHEMA" | jq -e '.schema[]? | select(.name == "updates_enabled")' > /dev/null 2>&1 || \
+echo "$SETTINGS_SCHEMA" | jq -e '.fields[]? | select(.name == "updates_enabled")' > /dev/null 2>&1 || \
   ERRORS+=("settings.updates_enabled field missing — migration 1.2 may not have run")
 
 kill $TMP_PID 2>/dev/null; wait $TMP_PID 2>/dev/null; trap - EXIT
