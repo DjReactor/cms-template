@@ -13,8 +13,12 @@ VERSION=$(echo "$STATE" | jq -r '.runtime.template_version')
 TEMPLATE=$(echo "$STATE" | jq -r '.input.template')
 SSL=$(echo "$STATE" | jq -r '.runtime.ssl_issued')
 
-[ -z "$SF_N8N_DEPLOY_WEBHOOK" ] && \
-  { mark_step_failed "$SLUG" "18_notify" "SF_N8N_DEPLOY_WEBHOOK not set"; exit_fail "n8n webhook URL not configured in server env"; }
+if [ -z "$SF_N8N_DEPLOY_WEBHOOK" ]; then
+  mark_step_ok "$SLUG" "18_notify"
+  ok "n8n webhook not configured — skipping notification (deploy complete)"
+  info "Set SF_N8N_DEPLOY_WEBHOOK in /etc/environment to enable welcome emails"
+  exit 0
+fi
 
 RESP=$(curl -sf -w "\n%{http_code}" -X POST "$SF_N8N_DEPLOY_WEBHOOK" \
   -H "Content-Type: application/json" \
@@ -41,8 +45,8 @@ if [[ "$HTTP_CODE" =~ ^2 ]]; then
   ok "n8n webhook triggered (HTTP $HTTP_CODE)"
   info "n8n will send welcome email to $BO_EMAIL"
 else
-  mark_step_failed "$SLUG" "18_notify" "n8n returned HTTP $HTTP_CODE"
-  fail "n8n webhook returned HTTP $HTTP_CODE. Notifications not sent."
-  info "Deploy is complete. Send welcome email manually."
-  exit 1
+  # Notification failure is non-fatal — deployment itself is complete
+  mark_step_ok "$SLUG" "18_notify"
+  warn "n8n webhook returned HTTP $HTTP_CODE — notification not sent (non-fatal)"
+  info "Deploy is complete. Send welcome email to $BO_EMAIL manually if needed."
 fi
