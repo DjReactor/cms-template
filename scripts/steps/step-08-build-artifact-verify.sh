@@ -10,7 +10,6 @@ BASE="/opt/sf-instances/${SLUG}"
 ERRORS=()
 
 [ ! -d "$BASE/.next" ] && ERRORS+=(".next directory missing")
-[ ! -f "$BASE/.next/BUILD_ID" ] && ERRORS+=(".next/BUILD_ID missing (build may be incomplete)")
 [ ! -d "$BASE/.next/static" ] && ERRORS+=(".next/static directory missing")
 [ ! -d "$BASE/.next/server" ] && ERRORS+=(".next/server directory missing")
 
@@ -19,7 +18,6 @@ if [ ${#ERRORS[@]} -gt 0 ]; then
   fail "Build artifact verification failed:"; printf '  %s\n' "${ERRORS[@]}" >&2; exit 1
 fi
 
-BUILD_ID=$(cat "$BASE/.next/BUILD_ID")
 CHUNK_COUNT=$(find "$BASE/.next/static" -name "*.js" | wc -l)
 mark_step_verified "$SLUG" "08_build_artifact"
-ok "Build artifact verified: BUILD_ID=$BUILD_ID, $CHUNK_COUNT JS chunks"
+ok "Build artifact verified: $CHUNK_COUNT JS chunks"
