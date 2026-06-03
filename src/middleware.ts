@@ -14,8 +14,8 @@ export async function middleware(request: NextRequest) {
   // 1. Dashboard Auth Guard
   if (pathname.startsWith('/dashboard')) {
     const authCookie = request.cookies.get('pb_auth');
-    if (!authCookie && pathname !== '/dashboard/login') {
-      return NextResponse.redirect(new URL('/dashboard/login', request.url));
+    if (!authCookie) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 
