@@ -2,7 +2,7 @@ import { getServiceArea } from '../actions';
 import ServiceAreaDetailForm from './ServiceAreaDetailForm';
 import { notFound } from 'next/navigation';
 
-export default async function ServiceAreaDetailPage({ params }: { params: { id: string } }) {
+export default async function ServiceAreaDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const area = await getServiceArea(id);
   

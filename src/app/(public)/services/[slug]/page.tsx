@@ -4,7 +4,7 @@ import { getPocketBaseClient } from "@/lib/pocketbase";
 import type { Service, ServiceArea, BeforeAfterPair } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function ServiceDetailPageWrapper({ params }: { params: { slug: string } }) {
+export default async function ServiceDetailPageWrapper({ params }: { params: Promise<{ slug: string }> }) {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
   const pb = await getPocketBaseClient();
@@ -14,7 +14,8 @@ export default async function ServiceDetailPageWrapper({ params }: { params: { s
   let beforeAfterPairs: BeforeAfterPair[] = [];
   
   try {
-    const record = await pb.collection('services').getFirstListItem<Service>(`slug="${params.slug}" && is_active=true`);
+    const resolvedParams = await params;
+    const record = await pb.collection('services').getFirstListItem<Service>(`slug="${resolvedParams.slug}" && is_active=true`);
     service = record;
     serviceAreas = await pb.collection('service_areas').getFullList<ServiceArea>({ filter: 'is_active = true', sort: 'sort_order' });
     beforeAfterPairs = await pb.collection('before_after_pairs').getFullList<BeforeAfterPair>({ filter: 'is_active = true', sort: 'sort_order' });

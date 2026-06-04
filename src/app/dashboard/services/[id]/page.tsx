@@ -2,7 +2,7 @@ import { getService } from '../actions';
 import ServiceDetailForm from './ServiceDetailForm';
 import { notFound } from 'next/navigation';
 
-export default async function ServiceDetailPage({ params }: { params: { id: string } }) {
+export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const service = await getService(id);
   

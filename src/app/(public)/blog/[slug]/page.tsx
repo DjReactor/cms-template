@@ -4,7 +4,7 @@ import { getPocketBaseClient } from "@/lib/pocketbase";
 import type { BlogPost } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function BlogPostPageWrapper({ params }: { params: { slug: string } }) {
+export default async function BlogPostPageWrapper({ params }: { params: Promise<{ slug: string }> }) {
   const settings = await getSettings();
   if (!settings.blog_enabled) return notFound();
 
@@ -15,7 +15,8 @@ export default async function BlogPostPageWrapper({ params }: { params: { slug: 
   let relatedPosts: BlogPost[] = [];
   
   try {
-    const record = await pb.collection('blog_posts').getFirstListItem<BlogPost>(`slug="${params.slug}" && status="published"`);
+    const resolvedParams = await params;
+    const record = await pb.collection('blog_posts').getFirstListItem<BlogPost>(`slug="${resolvedParams.slug}" && status="published"`);
     post = record;
     
     // Get latest 3 posts excluding current

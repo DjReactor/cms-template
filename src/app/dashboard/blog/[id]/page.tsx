@@ -2,7 +2,7 @@ import { getBlogPost } from '../actions';
 import BlogDetailForm from './BlogDetailForm';
 import { notFound } from 'next/navigation';
 
-export default async function BlogPostDetailPage({ params }: { params: { id: string } }) {
+export default async function BlogPostDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const post = await getBlogPost(id);
   

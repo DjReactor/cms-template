@@ -5,7 +5,7 @@ import { resolveCopyObject } from "@/lib/template";
 import type { Service, ServiceArea } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function ServiceAreaPageWrapper({ params }: { params: { 'area-slug': string } }) {
+export default async function ServiceAreaPageWrapper({ params }: { params: Promise<{ 'area-slug': string }> }) {
   const settings = await getSettings();
   const businessInfo = await getBusinessInfo();
   const pb = await getPocketBaseClient();
@@ -14,7 +14,8 @@ export default async function ServiceAreaPageWrapper({ params }: { params: { 'ar
   let services: Service[] = [];
   
   try {
-    const record = await pb.collection('service_areas').getFirstListItem<ServiceArea>(`slug="${params['area-slug']}" && is_active=true`);
+    const resolvedParams = await params;
+    const record = await pb.collection('service_areas').getFirstListItem<ServiceArea>(`slug="${resolvedParams['area-slug']}" && is_active=true`);
     area = record;
     services = await pb.collection('services').getFullList<Service>({ filter: 'is_active = true', sort: 'sort_order' });
   } catch(e) {
