@@ -34,31 +34,31 @@ export function ContactPage({ businessInfo, resolvedCopy, config }: ContactPageP
               
               {businessInfo.phone && (
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#2D6A4F] shrink-0">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-sm text-slate-500 font-medium">Phone</p>
-                    <a href={`tel:${businessInfo.phone}`} className="font-semibold text-lg hover:text-[var(--color-accent)] transition-colors">{businessInfo.phone}</a>
+                    <a href={`tel:${businessInfo.phone}`} className="font-semibold text-lg hover:text-[#2D6A4F] transition-colors">{businessInfo.phone}</a>
                   </div>
                 </div>
               )}
               
               {businessInfo.email && (
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#2D6A4F] shrink-0">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-sm text-slate-500 font-medium">Email</p>
-                    <a href={`mailto:${businessInfo.email}`} className="font-semibold text-lg hover:text-[var(--color-accent)] transition-colors">{businessInfo.email}</a>
+                    <a href={`mailto:${businessInfo.email}`} className="font-semibold text-lg hover:text-[#2D6A4F] transition-colors">{businessInfo.email}</a>
                   </div>
                 </div>
               )}
 
               {businessInfo.address && (
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#2D6A4F] shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>

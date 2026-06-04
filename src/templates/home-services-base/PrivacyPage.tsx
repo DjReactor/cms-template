@@ -12,7 +12,7 @@ export function PrivacyPage({ pageContent }: StaticPageProps) {
       </div>
       <div className="max-w-3xl mx-auto px-6 py-20">
         <div 
-          className="prose prose-lg prose-[var(--color-accent)] max-w-none"
+          className="prose prose-lg prose-[#2D6A4F] max-w-none"
           dangerouslySetInnerHTML={{ __html: pageContent || '' }} 
         />
       </div>

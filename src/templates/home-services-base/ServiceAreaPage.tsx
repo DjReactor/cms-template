@@ -6,7 +6,7 @@ export function ServiceAreaPage({ area, businessInfo, resolvedCopy, services, co
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="bg-gray-900 text-white py-20 px-6 border-b-8 border-[var(--color-accent)]">
+      <div className="bg-gray-900 text-white py-20 px-6 border-b-8 border-[#2D6A4F]">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             {resolvedCopy.h1}
@@ -23,7 +23,7 @@ export function ServiceAreaPage({ area, businessInfo, resolvedCopy, services, co
           {/* Main Content */}
           <div className="lg:col-span-2">
             {area.page_content ? (
-              <div className="prose prose-lg prose-[var(--color-accent)] max-w-none">
+              <div className="prose prose-lg prose-[#2D6A4F] max-w-none">
                 <BlockNoteRenderer content={area.page_content} />
               </div>
             ) : (
@@ -31,14 +31,14 @@ export function ServiceAreaPage({ area, businessInfo, resolvedCopy, services, co
             )}
 
             {/* CTA Banner Inline */}
-            <div className="mt-16 bg-[var(--color-accent)] text-white p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="mt-16 bg-[#2D6A4F] text-white p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <h3 className="font-heading text-2xl font-bold mb-2">Need Service in {area.name}?</h3>
                 <p className="text-white/90">Contact {businessInfo.business_name} today.</p>
               </div>
               <div className="shrink-0 flex gap-4">
                 {businessInfo.phone && (
-                  <a href={`tel:${businessInfo.phone}`} className="px-6 py-3 bg-white text-[var(--color-accent)] font-bold rounded-lg hover:bg-gray-100 transition-colors">
+                  <a href={`tel:${businessInfo.phone}`} className="px-6 py-3 bg-white text-[#2D6A4F] font-bold rounded-lg hover:bg-gray-100 transition-colors">
                     Call {businessInfo.phone}
                   </a>
                 )}
@@ -60,15 +60,15 @@ export function ServiceAreaPage({ area, businessInfo, resolvedCopy, services, co
                     <Link 
                       key={service.id} 
                       href={`/services/${service.slug}`} 
-                      className="group flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-[var(--color-accent)] hover:shadow-md transition-all"
+                      className="group flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-[#2D6A4F] hover:shadow-md transition-all"
                     >
                       {service.icon && (
-                        <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl text-[var(--color-accent)] shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl text-[#2D6A4F] shrink-0">
                           {service.icon}
                         </div>
                       )}
                       <div>
-                        <h4 className="font-bold text-gray-900 group-hover:text-[var(--color-accent)] transition-colors">{service.name}</h4>
+                        <h4 className="font-bold text-gray-900 group-hover:text-[#2D6A4F] transition-colors">{service.name}</h4>
                         {service.short_description && (
                           <p className="text-sm text-gray-500 mt-1 line-clamp-2">{service.short_description}</p>
                         )}

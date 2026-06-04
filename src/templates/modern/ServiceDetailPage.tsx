@@ -92,8 +92,8 @@ export function ServiceDetailPage({ service, businessInfo, serviceAreas, beforeA
                   <ul className="space-y-4">
                     {serviceAreas.map(area => (
                       <li key={area.id}>
-                        <Link href={`/${area.slug}`} className="flex items-center text-slate-600 hover:text-[var(--color-accent)] transition-colors">
-                          <CheckCircle2 className="w-5 h-5 mr-3 text-[var(--color-accent)] shrink-0" />
+                        <Link href={`/${area.slug}`} className="flex items-center text-slate-600 hover:text-[#2D6A4F] transition-colors">
+                          <CheckCircle2 className="w-5 h-5 mr-3 text-[#2D6A4F] shrink-0" />
                           <span className="font-medium">{area.name}</span>
                         </Link>
                       </li>

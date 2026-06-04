@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { 
   LayoutDashboard, Building2, Wrench, MapPin, 
   FileText, LineChart, Settings as SettingsIcon,
-  MessageSquare, Phone, Star, ShieldAlert
+  MessageSquare, Phone, Star, ShieldAlert, Palette
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -22,6 +22,7 @@ export function Sidebar({ settings, userRole }: SidebarProps) {
     { name: 'Services', href: '/dashboard/services', icon: Wrench },
     { name: 'Service Areas', href: '/dashboard/service-areas', icon: MapPin },
     { name: 'Site Content', href: '/dashboard/content', icon: FileText },
+    { name: 'Design', href: '/dashboard/design', icon: Palette },
     { name: 'SEO & Visibility', href: '/dashboard/seo', icon: LineChart },
   ];
 

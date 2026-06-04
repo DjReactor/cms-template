@@ -81,7 +81,7 @@ export function BlogPostPage({ post, businessInfo, relatedPosts, config }: BlogP
                     </div>
                   )}
                   <div className="p-6">
-                    <h4 className="font-bold text-lg mb-2 text-slate-900 group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">
+                    <h4 className="font-bold text-lg mb-2 text-slate-900 group-hover:text-[#2D6A4F] transition-colors line-clamp-2">
                       {related.title}
                     </h4>
                     <p className="text-slate-500 text-sm">

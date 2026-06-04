@@ -16,35 +16,32 @@ export function HomePage({
   beforeAfterPairs,
   config,
 }: HomePageProps) {
-  const showTestimonials = (config['show_testimonials_on_homepage'] as boolean) ?? true;
-  const showServiceAreas = (config['show_service_areas_on_homepage'] as boolean) ?? true;
-  const heroStyle = (config['hero_style'] as string) ?? 'fullwidth';
 
-  const heroImage = media.find(m => m.category === 'hero')?.url;
 
   return (
     <div>
       {/* Hero Section */}
-      <section className={`relative ${heroStyle === 'fullwidth' ? 'py-32 bg-slate-900 text-white' : 'py-20 bg-slate-50'}`}>
-        {heroStyle === 'fullwidth' && heroImage && (
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
-            style={{ backgroundImage: `url(${heroImage})` }}
+      <section className="relative py-28 md:py-40 bg-slate-900 text-white overflow-hidden">
+        {media.find(m => m.category === 'hero')?.url && (
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${media.find(m => m.category === 'hero')?.url})` }}
           />
         )}
-        <div className={`${styles.container} relative z-10 ${heroStyle === 'centered' ? 'text-center' : ''}`}>
-          <div className={`max-w-3xl ${heroStyle === 'centered' ? 'mx-auto' : ''}`}>
-            <h1 className={`${styles.headingBase} text-5xl md:text-6xl font-bold mb-6 ${heroStyle === 'fullwidth' ? 'text-white' : ''}`}>
+        <div className="absolute inset-0 bg-slate-900/70" />
+        <div className={`${styles.container} relative z-10`}>
+          <div className="max-w-3xl">
+            <h1 className={`${styles.headingBase} text-5xl md:text-6xl font-bold mb-6 text-white`}>
               {resolvedCopy.hero_h1}
             </h1>
-            <p className={`text-xl md:text-2xl mb-10 ${heroStyle === 'fullwidth' ? 'text-slate-200' : 'text-slate-600'}`}>
+            <p className="text-xl md:text-2xl mb-10 text-slate-200">
               {resolvedCopy.hero_subtitle}
             </p>
-            <div className={`flex flex-col sm:flex-row gap-4 ${heroStyle === 'centered' ? 'justify-center' : ''}`}>
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact" className={styles.buttonPrimary}>
                 {resolvedCopy.cta_primary}
               </Link>
-              <a href={`tel:${businessInfo.phone}`} className={heroStyle === 'fullwidth' ? 'bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium inline-flex items-center justify-center transition-colors' : styles.buttonSecondary}>
+              <a href={`tel:${businessInfo.phone}`} className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium inline-flex items-center justify-center transition-colors">
                 {resolvedCopy.cta_secondary}
               </a>
             </div>
@@ -63,10 +60,10 @@ export function HomePage({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {services.map(service => (
                 <Link key={service.id} href={`/services/${service.slug}`} className="group block p-8 rounded-2xl bg-slate-50 hover:bg-white hover:shadow-xl border border-slate-100 hover:border-slate-200 transition-all">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform text-[var(--color-accent)]">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform text-[#2D6A4F]">
                     {service.icon || '✦'}
                   </div>
-                  <h3 className={`${styles.headingBase} text-xl font-bold mb-3 group-hover:text-[var(--color-accent)] transition-colors`}>{service.name}</h3>
+                  <h3 className={`${styles.headingBase} text-xl font-bold mb-3 group-hover:text-[#2D6A4F] transition-colors`}>{service.name}</h3>
                   <p className="text-slate-600">{service.short_description}</p>
                 </Link>
               ))}
@@ -82,7 +79,7 @@ export function HomePage({
             <h2 className={`${styles.headingBase} text-3xl md:text-4xl font-bold mb-6`}>{resolvedCopy.about_heading}</h2>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">{businessInfo.short_description}</p>
             {businessInfo.year_established > 0 && (
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-white rounded-lg border border-slate-200 font-medium text-[var(--color-accent)] shadow-sm">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-white rounded-lg border border-slate-200 font-medium text-[#2D6A4F] shadow-sm">
                 <span>🏆</span>
                 Serving {businessInfo.city} since {businessInfo.year_established}
               </div>
@@ -126,7 +123,7 @@ export function HomePage({
       )}
 
       {/* Testimonials */}
-      {showTestimonials && testimonials.length > 0 && (
+      {testimonials.length > 0 && (
         <section className="py-24 bg-slate-50">
           <div className={styles.container}>
             <div className="text-center max-w-3xl mx-auto mb-16">
@@ -171,7 +168,7 @@ export function HomePage({
       )}
 
       {/* Service Areas */}
-      {showServiceAreas && serviceAreas.length > 0 && (
+      {serviceAreas.length > 0 && (
         <section className="py-24 bg-slate-900 text-white">
           <div className={styles.container}>
             <div className="text-center max-w-3xl mx-auto mb-16">

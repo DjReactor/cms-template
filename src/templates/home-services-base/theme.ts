@@ -11,3 +11,5 @@ export const headingFont = Roboto_Slab({
   variable: '--font-heading',
   display: 'swap',
 })
+
+export const ACCENT = '#2D6A4F'

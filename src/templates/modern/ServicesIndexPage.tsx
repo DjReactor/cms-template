@@ -17,7 +17,7 @@ export function ServicesIndexPage({ services, businessInfo, resolvedCopy, config
               <Link 
                 key={service.id} 
                 href={`/services/${service.slug}`}
-                className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[var(--color-accent)] hover:shadow-xl transition-all"
+                className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#2D6A4F] hover:shadow-xl transition-all"
               >
                 {service.cover_image_url ? (
                   <div className="aspect-video w-full overflow-hidden bg-slate-100">
@@ -29,11 +29,11 @@ export function ServicesIndexPage({ services, businessInfo, resolvedCopy, config
                   </div>
                 )}
                 <div className="p-8 flex-1 flex flex-col">
-                  <h2 className={`${styles.headingBase} text-2xl font-bold mb-4 group-hover:text-[var(--color-accent)] transition-colors`}>
+                  <h2 className={`${styles.headingBase} text-2xl font-bold mb-4 group-hover:text-[#2D6A4F] transition-colors`}>
                     {service.name}
                   </h2>
                   <p className="text-slate-600 mb-6 flex-1">{service.short_description}</p>
-                  <span className="font-semibold text-[var(--color-accent)] inline-flex items-center gap-1 group-hover:translate-x-2 transition-transform">
+                  <span className="font-semibold text-[#2D6A4F] inline-flex items-center gap-1 group-hover:translate-x-2 transition-transform">
                     Learn more <span>→</span>
                   </span>
                 </div>

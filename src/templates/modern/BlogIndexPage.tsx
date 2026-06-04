@@ -37,13 +37,13 @@ export function BlogIndexPage({ posts, businessInfo, currentPage, totalPages, co
                         {new Date(post.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </time>
                     </div>
-                    <h2 className={`${styles.headingBase} text-2xl font-bold mb-4 group-hover:text-[var(--color-accent)] transition-colors line-clamp-2`}>
+                    <h2 className={`${styles.headingBase} text-2xl font-bold mb-4 group-hover:text-[#2D6A4F] transition-colors line-clamp-2`}>
                       {post.title}
                     </h2>
                     <p className="text-slate-600 mb-6 flex-1 line-clamp-3">
                       {post.excerpt}
                     </p>
-                    <span className="font-semibold text-[var(--color-accent)] inline-flex items-center gap-1 group-hover:translate-x-2 transition-transform">
+                    <span className="font-semibold text-[#2D6A4F] inline-flex items-center gap-1 group-hover:translate-x-2 transition-transform">
                       Read article <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>

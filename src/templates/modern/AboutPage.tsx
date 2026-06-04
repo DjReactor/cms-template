@@ -68,8 +68,8 @@ export function AboutPage({ businessInfo, serviceAreas, resolvedCopy, config }: 
             <div className="pt-8 border-t border-slate-200">
               <h3 className="font-bold text-xl mb-4 text-slate-900">Contact Us</h3>
               <div className="space-y-3 font-medium">
-                {businessInfo.phone && <a href={`tel:${businessInfo.phone}`} className="block text-[var(--color-accent)] hover:underline">{businessInfo.phone}</a>}
-                {businessInfo.email && <a href={`mailto:${businessInfo.email}`} className="block text-[var(--color-accent)] hover:underline">{businessInfo.email}</a>}
+                {businessInfo.phone && <a href={`tel:${businessInfo.phone}`} className="block text-[#2D6A4F] hover:underline">{businessInfo.phone}</a>}
+                {businessInfo.email && <a href={`mailto:${businessInfo.email}`} className="block text-[#2D6A4F] hover:underline">{businessInfo.email}</a>}
                 {businessInfo.address && <p className="text-slate-600">{businessInfo.address}</p>}
               </div>
             </div>
