@@ -35,23 +35,19 @@ export default async function PublicLayout({
   const jsonLd = buildLocalBusinessSchema(businessInfo, seoSettings, testimonials, services, serviceAreas);
 
   return (
-    <html lang="en">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body>
-        <LayoutComponent
-          businessInfo={businessInfo}
-          serviceAreas={serviceAreas}
-          settings={settings}
-          config={settings.template_config || {}}
-        >
-          {children}
-        </LayoutComponent>
-      </body>
-    </html>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <LayoutComponent
+        businessInfo={businessInfo}
+        serviceAreas={serviceAreas}
+        settings={settings}
+        config={settings.template_config || {}}
+      >
+        {children}
+      </LayoutComponent>
+    </>
   );
 }
