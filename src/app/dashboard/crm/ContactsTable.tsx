@@ -72,6 +72,7 @@ export function ContactsTable({ initialContacts }: { initialContacts: any[] }) {
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Contact Info</th>
                 <th className="px-6 py-4">Source</th>
+                <th className="px-6 py-4">Address</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -88,6 +89,11 @@ export function ContactsTable({ initialContacts }: { initialContacts: any[] }) {
                     <Badge variant="default" className="capitalize">
                       {contact.source?.replace('_', ' ')}
                     </Badge>
+                  </td>
+                  <td className="px-6 py-4 text-slate-500 text-xs max-w-[180px] truncate">
+                    {contact.address_full
+                      ? contact.address_full
+                      : [contact.address_city, contact.address_state].filter(Boolean).join(', ') || '—'}
                   </td>
                   <td className="px-6 py-4">
                     <Select 
@@ -128,7 +134,7 @@ export function ContactsTable({ initialContacts }: { initialContacts: any[] }) {
               ))}
               {contacts.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     No contacts found.
                   </td>
                 </tr>

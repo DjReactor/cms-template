@@ -126,7 +126,7 @@ export function HomePage({ businessInfo, resolvedCopy, services, serviceAreas, t
             <p className="text-gray-600">Contact us today for a free estimate or to schedule service.</p>
           </div>
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-            <ContactForm />
+            <ContactForm source="hero_cta" ctaLabel="Get a Free Quote" />
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { ServiceDetailProps } from '@/types/template'
 import { BlockNoteRenderer } from '@/components/shared/BlockNoteRenderer'
+import { ContactForm } from '@/components/shared/ContactForm'
 
 export function ServiceDetailPage({ service, businessInfo, serviceAreas, config }: ServiceDetailProps) {
   return (
@@ -71,11 +72,11 @@ export function ServiceDetailPage({ service, businessInfo, serviceAreas, config 
           {/* Sidebar */}
           <div className="space-y-8">
             <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-              <h3 className="font-heading text-xl font-bold text-gray-900 mb-4">Ready to get started?</h3>
-              <p className="text-gray-600 mb-6">Contact {businessInfo.business_name} today to schedule service or request a free estimate.</p>
-              <Link href="/contact" className="block w-full text-center px-6 py-3 bg-[#2D6A4F] text-white font-bold rounded-lg hover:opacity-90 transition-opacity">
-                Contact Us
-              </Link>
+              <h3 className="font-heading text-xl font-bold text-gray-900 mb-4">Request a Quote</h3>
+              <p className="text-gray-600 mb-6">
+                Get in touch with {businessInfo.business_name} for a free estimate on {service.name}.
+              </p>
+              <ContactForm source="service_cta" ctaLabel="Request a Quote" />
             </div>
 
             {serviceAreas?.length > 0 && (

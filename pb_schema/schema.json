@@ -355,11 +355,35 @@
         "type": "text"
       },
       {
+        "name": "address_street",
+        "type": "text"
+      },
+      {
+        "name": "address_city",
+        "type": "text"
+      },
+      {
+        "name": "address_state",
+        "type": "text"
+      },
+      {
+        "name": "address_zip",
+        "type": "text"
+      },
+      {
+        "name": "address_full",
+        "type": "text"
+      },
+      {
         "name": "source",
         "type": "text"
       },
       {
         "name": "status",
+        "type": "text"
+      },
+      {
+        "name": "notes",
         "type": "text"
       }
     ]
@@ -497,6 +521,14 @@
       {
         "name": "allowed_templates",
         "type": "json"
+      },
+      {
+        "name": "lead_webhook_url",
+        "type": "text"
+      },
+      {
+        "name": "lead_webhook_secret",
+        "type": "text"
       }
     ]
   },

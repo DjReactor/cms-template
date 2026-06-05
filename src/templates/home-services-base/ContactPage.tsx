@@ -34,7 +34,7 @@ export function ContactPage({ businessInfo, resolvedCopy, config }: ContactPageP
           <div>
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
               <h2 className="font-heading text-2xl font-bold text-gray-900 mb-8">Send Us a Message</h2>
-              <ContactForm />
+              <ContactForm source="contact_page" />
             </div>
           </div>
 

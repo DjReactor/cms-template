@@ -16,6 +16,8 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
         show_powered_by: records[0].show_powered_by ?? false,
         active_template: records[0].active_template || 'modern',
         template_config: records[0].template_config || {},
+        lead_webhook_url:    records[0].lead_webhook_url    || '',
+        lead_webhook_secret: records[0].lead_webhook_secret || '',
       };
     }
   } catch (e) {
@@ -31,6 +33,8 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
     show_powered_by: true,
     active_template: 'modern',
     template_config: {},
+    lead_webhook_url:    '',
+    lead_webhook_secret: '',
   };
 });
 

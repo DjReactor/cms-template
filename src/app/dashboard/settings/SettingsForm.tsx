@@ -4,6 +4,7 @@ import { useTransition } from 'react';
 import { updateSettings } from './actions';
 import { Button } from '@/components/ui/Button';
 import { Toggle } from '@/components/ui/Toggle';
+import { Input } from '@/components/ui/Input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { useToast } from '@/components/ui/Toast';
 
@@ -13,10 +14,12 @@ export function SettingsForm({ initialData }: { initialData: any }) {
 
   const { handleSubmit, setValue, watch } = useForm({
     defaultValues: {
-      show_powered_by: initialData?.show_powered_by ?? false,
-      notify_on_publish: initialData?.notify_on_publish ?? true,
+      show_powered_by:        initialData?.show_powered_by        ?? false,
+      notify_on_publish:      initialData?.notify_on_publish      ?? true,
       notify_monthly_summary: initialData?.notify_monthly_summary ?? false,
-      notify_new_blog_post: initialData?.notify_new_blog_post ?? false,
+      notify_new_blog_post:   initialData?.notify_new_blog_post   ?? false,
+      lead_webhook_url:       initialData?.lead_webhook_url       ?? '',
+      lead_webhook_secret:    initialData?.lead_webhook_secret    ?? '',
     }
   });
 
@@ -71,6 +74,34 @@ export function SettingsForm({ initialData }: { initialData: any }) {
               onChange={(e) => setValue('notify_new_blog_post', e.target.checked)} 
             />
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Lead Notifications</CardTitle>
+          <CardDescription>
+            When a visitor submits a form, send the lead data to an automation webhook (n8n, Make, Zapier).
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Input
+            label="Webhook URL"
+            value={watch('lead_webhook_url')}
+            onChange={(e) => setValue('lead_webhook_url', e.target.value)}
+            placeholder="https://your-n8n-instance.com/webhook/..."
+            type="url"
+          />
+          <Input
+            label="Webhook Secret (optional)"
+            value={watch('lead_webhook_secret')}
+            onChange={(e) => setValue('lead_webhook_secret', e.target.value)}
+            placeholder="Sent as Authorization: Bearer ..."
+            type="password"
+          />
+          <p className="text-xs text-slate-400">
+            Leave blank to disable webhook dispatch. The secret is sent as a Bearer token in the Authorization header.
+          </p>
         </CardContent>
       </Card>
 
