@@ -10,6 +10,9 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
       return {
         id: records[0].id,
         blog_enabled: records[0].blog_enabled ?? false,
+        crm_enabled: records[0].crm_enabled ?? false,
+        retell_enabled: records[0].retell_enabled ?? false,
+        reviews_enabled: records[0].reviews_enabled ?? false,
         show_powered_by: records[0].show_powered_by ?? false,
         active_template: records[0].active_template || 'modern',
         template_config: records[0].template_config || {},
@@ -22,6 +25,9 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
   return {
     id: 'mock',
     blog_enabled: true,
+    crm_enabled: true,
+    retell_enabled: true,
+    reviews_enabled: true,
     show_powered_by: true,
     active_template: 'modern',
     template_config: {},

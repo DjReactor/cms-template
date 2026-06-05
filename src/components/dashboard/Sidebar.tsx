@@ -27,16 +27,16 @@ export function Sidebar({ settings, userRole }: SidebarProps) {
   ];
 
   const modules = [];
-  if (settings?.blog_enabled) {
+  if (settings?.blog_enabled || userRole === 'agency_admin') {
     modules.push({ name: 'Blog', href: '/dashboard/blog', icon: FileText });
   }
-  if (settings?.crm_enabled) {
+  if (settings?.crm_enabled || userRole === 'agency_admin') {
     modules.push({ name: 'CRM Contacts', href: '/dashboard/crm', icon: MessageSquare });
   }
-  if (settings?.retell_enabled) {
+  if (settings?.retell_enabled || userRole === 'agency_admin') {
     modules.push({ name: 'AI Call Logs', href: '/dashboard/call-logs', icon: Phone });
   }
-  if (settings?.reviews_enabled) {
+  if (settings?.reviews_enabled || userRole === 'agency_admin') {
     modules.push({ name: 'Reviews', href: '/dashboard/reviews', icon: Star });
   }
 

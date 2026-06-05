@@ -106,4 +106,8 @@ export interface TemplateSettings {
   blog_enabled: boolean
   show_powered_by: boolean
   active_template: string
+  crm_enabled?: boolean
+  retell_enabled?: boolean
+  reviews_enabled?: boolean
+  template_config?: any
 }
