@@ -36,7 +36,10 @@ export async function GET(request: Request) {
     // Agency access is unconditionally granted for valid AGENCY_TOKEN
 
     // Set cookie and redirect to dashboard
-    const response = NextResponse.redirect(new URL('/dashboard', request.url));
+    const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    const baseUrl = `${protocol}://${host}`;
+    const response = NextResponse.redirect(new URL('/dashboard', baseUrl));
     const cookieString = pb.authStore.exportToCookie({ httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     const cookieValue = cookieString.split('pb_auth=')[1] || '';
     
