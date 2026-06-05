@@ -45,7 +45,7 @@ info "Created business_info"
 
 # Create settings
 pb_api "$TOKEN" POST "http://127.0.0.1:${PB_PORT}/api/collections/settings/records" \
-  "{\"active_template\":\"$TEMPLATE\",\"template_config\":{},\"allowed_templates\":[],\"blog_enabled\":false,\"retell_enabled\":false,\"reviews_enabled\":false,\"analytics_enabled\":false,\"crm_enabled\":true,\"updates_enabled\":true,\"update_channel\":\"$CHANNEL\",\"show_powered_by\":false,\"allow_agency_access\":true,\"notify_on_publish\":true,\"blog_auto_publish\":true,\"blog_webhook_secret\":\"$BLOG_SECRET\",\"retell_webhook_secret\":\"$RETELL_SECRET\",\"reviews_webhook_secret\":\"$REVIEWS_SECRET\"}"
+  "{\"active_template\":\"$TEMPLATE\",\"template_config\":{},\"allowed_templates\":[],\"blog_enabled\":true,\"retell_enabled\":true,\"reviews_enabled\":true,\"analytics_enabled\":true,\"crm_enabled\":true,\"updates_enabled\":true,\"update_channel\":\"$CHANNEL\",\"show_powered_by\":false,\"notify_on_publish\":true,\"notify_monthly_summary\":true,\"notify_new_blog_post\":true,\"blog_auto_publish\":true,\"blog_webhook_secret\":\"$BLOG_SECRET\",\"retell_webhook_secret\":\"$RETELL_SECRET\",\"reviews_webhook_secret\":\"$REVIEWS_SECRET\"}"
 info "Created settings"
 
 # Create seo_settings

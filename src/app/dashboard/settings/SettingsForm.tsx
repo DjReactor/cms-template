@@ -14,7 +14,6 @@ export function SettingsForm({ initialData }: { initialData: any }) {
   const { handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       show_powered_by: initialData?.show_powered_by ?? false,
-      allow_agency_access: initialData?.allow_agency_access ?? true,
       notify_on_publish: initialData?.notify_on_publish ?? true,
       notify_monthly_summary: initialData?.notify_monthly_summary ?? false,
       notify_new_blog_post: initialData?.notify_new_blog_post ?? false,
@@ -34,25 +33,6 @@ export function SettingsForm({ initialData }: { initialData: any }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Agency Access</CardTitle>
-          <CardDescription>Control how SuccessForce staff can access your account.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200/60">
-            <div>
-              <p className="font-medium text-slate-900">Allow Support Access</p>
-              <p className="text-sm text-slate-500">Allow our support team to log into your dashboard to help troubleshoot issues.</p>
-            </div>
-            <Toggle 
-              checked={watch('allow_agency_access')} 
-              onChange={(e) => setValue('allow_agency_access', e.target.checked)} 
-            />
-          </div>
-        </CardContent>
-      </Card>
-
       <Card>
         <CardHeader>
           <CardTitle>Email Notifications</CardTitle>

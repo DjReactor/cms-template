@@ -406,7 +406,7 @@
     "listRule": "",
     "viewRule": "",
     "createRule": null,
-    "updateRule": null,
+    "updateRule": "@request.auth.id != ''",
     "deleteRule": null,
     "fields": [
       {
@@ -453,6 +453,50 @@
       {
         "name": "reviews_webhook_secret",
         "type": "text"
+      },
+      {
+        "name": "analytics_enabled",
+        "type": "bool"
+      },
+      {
+        "name": "crm_enabled",
+        "type": "bool"
+      },
+      {
+        "name": "notify_on_publish",
+        "type": "bool"
+      },
+      {
+        "name": "notify_monthly_summary",
+        "type": "bool"
+      },
+      {
+        "name": "notify_new_blog_post",
+        "type": "bool"
+      },
+      {
+        "name": "blog_auto_publish",
+        "type": "bool"
+      },
+      {
+        "name": "n8n_webhook_url",
+        "type": "text"
+      },
+      {
+        "name": "n8n_api_key",
+        "type": "text"
+      },
+      {
+        "name": "ga4_measurement_id",
+        "type": "text"
+      },
+      {
+        "name": "update_lock_reason",
+        "type": "text"
+      },
+      {
+        "name": "allowed_templates",
+        "type": "json"
       }
     ]
   },

@@ -33,11 +33,7 @@ export async function GET(request: Request) {
       await (pb as any).admins.authWithPassword(email, password);
     }
 
-    // Verify if the instance allows agency access
-    const settings = await pb.collection('settings').getFirstListItem('');
-    if (!settings.allow_agency_access) {
-       return NextResponse.json({ error: 'Agency access disabled by instance owner' }, { status: 403 });
-    }
+    // Agency access is unconditionally granted for valid AGENCY_TOKEN
 
     // Set cookie and redirect to dashboard
     const response = NextResponse.redirect(new URL('/dashboard', request.url));
