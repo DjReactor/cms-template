@@ -2,13 +2,15 @@
 
 import { getPocketBaseClient } from '@/lib/pocketbase';
 import { requireAuth } from '@/lib/auth';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 export async function getMedia() {
+  noStore();
   const pb = await getPocketBaseClient();
   try {
     const records = await pb.collection('media').getFullList({
       sort: '-created',
+      requestKey: null,
     });
     return JSON.parse(JSON.stringify(records));
   } catch (error) {
@@ -22,7 +24,7 @@ export async function uploadMedia(formData: FormData) {
     const pb = await getPocketBaseClient();
     
     await pb.collection('media').create(formData);
-    revalidatePath('/dashboard/media');
+    revalidatePath('/dashboard', 'layout');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -34,7 +36,7 @@ export async function deleteMedia(id: string) {
     await requireAuth();
     const pb = await getPocketBaseClient();
     await pb.collection('media').delete(id);
-    revalidatePath('/dashboard/media');
+    revalidatePath('/dashboard', 'layout');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -46,7 +48,7 @@ export async function updateMedia(id: string, data: any) {
     await requireAuth();
     const pb = await getPocketBaseClient();
     await pb.collection('media').update(id, data);
-    revalidatePath('/dashboard/media');
+    revalidatePath('/dashboard', 'layout');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
