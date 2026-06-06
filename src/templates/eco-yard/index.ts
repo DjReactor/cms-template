@@ -1,14 +1,33 @@
-export { default as manifest } from './manifest.json'
-export { theme } from './theme'
-export { Layout } from './Layout'
-export { HomePage } from './HomePage'
-export { AboutPage } from './AboutPage'
-export { ContactPage } from './ContactPage'
-export { ServicesIndexPage } from './ServicesIndexPage'
-export { ServiceDetailPage } from './ServiceDetailPage'
-export { TestimonialsPage } from './TestimonialsPage'
-export { ServiceAreaPage } from './ServiceAreaPage'
-export { BlogIndexPage } from './BlogIndexPage'
-export { BlogPostPage } from './BlogPostPage'
-export { PrivacyPage } from './PrivacyPage'
-export { TermsPage } from './TermsPage'
+import type { TemplatePack } from '@/types/template'
+
+import { Layout }            from './Layout'
+import { Header }            from './Header'
+import { Footer }            from './Footer'
+import { HomePage }          from './HomePage'
+import { AboutPage }         from './AboutPage'
+import { ContactPage }       from './ContactPage'
+import { ServicesIndexPage } from './ServicesIndexPage'
+import { ServiceDetailPage } from './ServiceDetailPage'
+import { ServiceAreaPage }   from './ServiceAreaPage'
+import { BlogIndexPage }     from './BlogIndexPage'
+import { BlogPostPage }      from './BlogPostPage'
+import { PrivacyPage }       from './PrivacyPage'
+import { TermsPage }         from './TermsPage'
+
+const templatePack: TemplatePack = {
+  Layout,
+  Header,
+  Footer,
+  HomePage,
+  AboutPage,
+  ContactPage,
+  ServicesIndexPage,
+  ServiceDetailPage,
+  ServiceAreaPage,
+  BlogIndexPage,
+  BlogPostPage,
+  PrivacyPage,
+  TermsPage,
+}
+
+export default templatePack
