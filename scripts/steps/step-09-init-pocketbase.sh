@@ -39,7 +39,14 @@ PB_TOKEN=$(echo "$AUTH_RESP" | jq -r '.token // empty')
   { mark_step_failed "$SLUG" "09_init_pocketbase" "Admin auth failed"; exit_fail "Could not get admin token"; }
 
 info "Importing collection schema..."
-SCHEMA_JSON=$(cat "$BASE/pb_schema/schema.json")
+USERS_REAL_ID=$(curl -sf -H "Authorization: ${PB_TOKEN}" "http://127.0.0.1:${PB_PORT}/api/collections" | jq -r '.items[] | select(.name == "users") | .id')
+
+if [ -n "$USERS_REAL_ID" ]; then
+  SCHEMA_JSON=$(cat "$BASE/pb_schema/schema.json" | jq --arg real_id "$USERS_REAL_ID" 'map(if .name == "users" then .id = $real_id else . end)')
+else
+  SCHEMA_JSON=$(cat "$BASE/pb_schema/schema.json")
+fi
+
 IMPORT_RESP=$(curl -s -w "\n%{http_code}" -X PUT \
   "http://127.0.0.1:${PB_PORT}/api/collections/import" \
   -H "Authorization: ${PB_TOKEN}" \
