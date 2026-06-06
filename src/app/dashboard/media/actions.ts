@@ -9,12 +9,13 @@ export async function getMedia() {
   const pb = await getPocketBaseClient();
   try {
     const records = await pb.collection('media').getFullList({
-      sort: '-created',
+      sort: '-sort_order',
       requestKey: null,
       fetch: (url, config) => fetch(url, { ...config, cache: 'no-store' })
     });
     return JSON.parse(JSON.stringify(records));
   } catch (error) {
+    console.error('getMedia Error:', error);
     return [];
   }
 }
