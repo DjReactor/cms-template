@@ -729,7 +729,7 @@
         "name": "users",
         "type": "auth",
         "system": false,
-        "schema": [
+        "fields": [
             {
                 "name": "name",
                 "type": "text",
