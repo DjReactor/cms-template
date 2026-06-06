@@ -302,9 +302,9 @@
         "type": "base",
         "listRule": "",
         "viewRule": "",
-        "createRule": null,
-        "updateRule": null,
-        "deleteRule": null,
+        "createRule": "@request.auth.id != ''",
+        "updateRule": "@request.auth.id != ''",
+        "deleteRule": "@request.auth.id != ''",
         "fields": [
             {
                 "name": "label",
