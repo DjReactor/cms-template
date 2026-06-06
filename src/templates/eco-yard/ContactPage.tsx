@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ContactPageProps } from '@/types/template'
+import { resolveImage } from '@/lib/images'
 import { ContactForm } from '@/components/shared/ContactForm'
 
 export function ContactPage({
@@ -11,8 +12,8 @@ export function ContactPage({
   config
 }: ContactPageProps) {
 
-  const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/af0b4b6d544656b2ccc897aeda06fc93.webp'
+  const heroImage = resolveImage('hero_bg', '/assets/eco-yard/af0b4b6d544656b2ccc897aeda06fc93.webp', config)
+  const contactBgImage = resolveImage('contact_bg', '/assets/eco-yard/d6af1fc2fcd9d6c0fff13aab32a6339e.webp', config)
 
   return (
     <div className="w-full">
@@ -52,7 +53,7 @@ export function ContactPage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative h-[700px] rounded-3xl overflow-hidden shadow-xl w-full">
               <Image 
-                src="/assets/eco-yard/d6af1fc2fcd9d6c0fff13aab32a6339e.webp"
+                src={contactBgImage}
                 alt="Let's Talk"
                 fill
                 className="object-cover"
@@ -110,7 +111,7 @@ export function ContactPage({
                   </div>
                   <div className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    {businessInfo.city}, {businessInfo.state}
+                    {businessInfo.city}
                   </div>
                 </div>
               </div>

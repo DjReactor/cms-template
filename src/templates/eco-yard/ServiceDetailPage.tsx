@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import type { ServiceDetailPageProps } from '@/types/template'
+import type { ServiceDetailProps } from '@/types/template'
+import { getMediaFileUrl } from '@/lib/images'
 import { ContactForm } from '@/components/shared/ContactForm'
 
 export function ServiceDetailPage({
@@ -10,10 +11,10 @@ export function ServiceDetailPage({
   otherServices,
   media,
   config
-}: ServiceDetailPageProps) {
+}: ServiceDetailProps) {
 
   const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/1a36658fd2628deae4bb36c83795ee49.webp'
+  const heroImage = getMediaFileUrl(heroMedia) || '/assets/eco-yard/1a36658fd2628deae4bb36c83795ee49.webp'
 
   return (
     <div className="w-full">

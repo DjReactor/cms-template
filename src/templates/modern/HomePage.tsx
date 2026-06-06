@@ -5,6 +5,7 @@ import { StarRating } from '@/components/shared/StarRating';
 import { ContactForm } from '@/components/shared/ContactForm';
 import { BeforeAfterSlider } from '@/components/shared/BeforeAfterSlider';
 import { User } from 'lucide-react';
+import { resolveImage, getMediaFileUrl } from '@/lib/images';
 
 export function HomePage({
   businessInfo,
@@ -16,16 +17,16 @@ export function HomePage({
   beforeAfterPairs,
   config,
 }: HomePageProps) {
-
-
+  const heroMedia = media.find(m => m.category === 'hero');
+  const heroImage = resolveImage('hero_bg', getMediaFileUrl(heroMedia), config);
   return (
     <div>
       {/* Hero Section */}
       <section className="relative py-28 md:py-40 bg-slate-900 text-white overflow-hidden">
-        {media.find(m => m.category === 'hero')?.url && (
+        {heroImage && (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${media.find(m => m.category === 'hero')?.url})` }}
+            style={{ backgroundImage: `url(${heroImage})` }}
           />
         )}
         <div className="absolute inset-0 bg-slate-900/70" />
@@ -87,8 +88,8 @@ export function HomePage({
           </div>
           <div className="aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-200 relative">
             {/* If there is a gallery image, use it, otherwise placeholder */}
-            {media.find(m => m.category === 'gallery')?.url ? (
-              <img src={media.find(m => m.category === 'gallery')?.url} alt="About Us" className="w-full h-full object-cover" />
+            {media.find(m => m.category === 'gallery')?.file ? (
+              <img src={getMediaFileUrl(media.find(m => m.category === 'gallery'))} alt="About Us" className="w-full h-full object-cover" />
             ) : (
               <div className="absolute inset-0 bg-slate-200 flex items-center justify-center text-slate-400">Image Placeholder</div>
             )}

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import type { BlogIndexPageProps } from '@/types/template'
+import type { BlogIndexProps } from '@/types/template'
+import { getMediaFileUrl } from '@/lib/images'
 
 export function BlogIndexPage({
   businessInfo,
@@ -8,10 +9,10 @@ export function BlogIndexPage({
   posts = [],
   media,
   config
-}: BlogIndexPageProps) {
+}: BlogIndexProps) {
 
   const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/8f8fad3186d80ad51fcac9d62bdb5a61.webp'
+  const heroImage = getMediaFileUrl(heroMedia) || '/assets/eco-yard/8f8fad3186d80ad51fcac9d62bdb5a61.webp'
 
   return (
     <div className="w-full">

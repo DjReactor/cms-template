@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import type { ServicesIndexPageProps } from '@/types/template'
+import type { ServicesIndexProps } from '@/types/template'
+import { getMediaFileUrl } from '@/lib/images'
 import { ContactForm } from '@/components/shared/ContactForm'
 import { StarRating } from '@/components/shared/StarRating'
 
@@ -11,10 +12,10 @@ export function ServicesIndexPage({
   testimonials,
   media,
   config
-}: ServicesIndexPageProps) {
+}: ServicesIndexProps) {
 
   const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/5557a887ad078898907b6171e78e3f19.webp'
+  const heroImage = getMediaFileUrl(heroMedia) || '/assets/eco-yard/5557a887ad078898907b6171e78e3f19.webp'
 
   return (
     <div className="w-full">

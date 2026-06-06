@@ -26,7 +26,7 @@ export function MediaGrid({ items, pbUrl }: { items: any[], pbUrl: string }) {
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
       {items.map((item) => {
         // Build the public URL. In production this should be a relative path if proxied.
-        const url = `${pbUrl}/api/files/media/${item.id}/${item.file}`;
+        const url = item.file ? `${pbUrl}/api/files/media/${item.id}/${item.file}` : '';
         
         return (
           <div key={item.id} className="group relative rounded-2xl border border-slate-200/60 bg-white overflow-hidden shadow-sm hover:shadow-md transition-all">

@@ -1,5 +1,6 @@
 import { getPocketBaseClient } from '@/lib/pocketbase';
 import type { MediaItem, BlogPost, Service } from '@/types';
+import { getMediaFileUrl } from '@/lib/images';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -13,11 +14,12 @@ export async function GET() {
     // Add gallery/hero media
     const media = await pb.collection('media').getFullList<MediaItem>();
     media.forEach(item => {
-      if (item.url) {
+      const fileUrl = getMediaFileUrl(item);
+      if (fileUrl) {
         xml += `  <url>\n`;
         xml += `    <loc>${baseUrl}</loc>\n`;
         xml += `    <image:image>\n`;
-        xml += `      <image:loc>${item.url}</image:loc>\n`;
+        xml += `      <image:loc>${fileUrl}</image:loc>\n`;
         if (item.alt_text) xml += `      <image:title>${item.alt_text}</image:title>\n`;
         xml += `    </image:image>\n`;
         xml += `  </url>\n`;

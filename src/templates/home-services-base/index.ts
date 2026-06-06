@@ -14,7 +14,21 @@ import { BlogPostPage }      from './BlogPostPage'
 import { PrivacyPage }       from './PrivacyPage'
 import { TermsPage }         from './TermsPage'
 
+import { TemplateManifest } from '@/types'
+
+export const manifest: TemplateManifest = {
+  name: "Home Services Base",
+  slug: "home-services-base",
+  supportedImageKeys: {
+    "hero_bg": { 
+      label: "Main Hero Background", 
+      defaultFallback: "" 
+    }
+  }
+}
+
 const templatePack: TemplatePack = {
+  manifest,
   Layout,
   Header,
   Footer,

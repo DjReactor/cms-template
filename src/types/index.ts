@@ -95,11 +95,29 @@ export interface BlogPost {
 
 export interface MediaItem {
   id: string
-  url: string
+  file: string
   label: string
   category: 'hero' | 'gallery' | 'team' | 'logo' | 'other' | ''
   alt_text: string
   sort_order: number
+}
+
+export interface TemplateImageSlot {
+  label: string
+  defaultFallback: string
+}
+
+export interface TemplateManifest {
+  name: string
+  slug: string
+  supportedImageKeys: Record<string, TemplateImageSlot>
+}
+
+export interface SeoSettings {
+  id: string
+  schema_business_type: string
+  enable_aggregate_rating: boolean
+  title_separator: string
 }
 
 export interface TemplateSettings {
@@ -109,5 +127,9 @@ export interface TemplateSettings {
   crm_enabled?: boolean
   retell_enabled?: boolean
   reviews_enabled?: boolean
-  template_config?: any
+  lead_webhook_url?: string
+  template_config?: {
+    imageOverrides?: Record<string, string>
+    [key: string]: any
+  }
 }

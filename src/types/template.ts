@@ -6,7 +6,8 @@ import {
   BlogPost, 
   MediaItem, 
   TemplateSettings,
-  BeforeAfterPair
+  BeforeAfterPair,
+  TemplateManifest
 } from './index';
 
 export type TemplateConfig = Record<string, string | boolean>
@@ -51,12 +52,17 @@ export interface AboutPageProps {
   businessInfo: BusinessInfo
   serviceAreas: ServiceArea[]
   resolvedCopy: ResolvedCopy
+  services: Service[]
+  testimonials: Testimonial[]
+  media: MediaItem[]
   config: TemplateConfig
 }
 
 export interface ContactPageProps {
   businessInfo: BusinessInfo
+  serviceAreas: ServiceArea[]
   resolvedCopy: ResolvedCopy
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -64,6 +70,7 @@ export interface ServicesIndexProps {
   services: Service[]
   businessInfo: BusinessInfo
   resolvedCopy: ResolvedCopy
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -72,6 +79,7 @@ export interface ServiceDetailProps {
   businessInfo: BusinessInfo
   serviceAreas: ServiceArea[]
   beforeAfterPairs: BeforeAfterPair[]
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -80,6 +88,7 @@ export interface ServiceAreaProps {
   businessInfo: BusinessInfo
   resolvedCopy: ResolvedCopy
   services: Service[]
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -88,6 +97,7 @@ export interface BlogIndexProps {
   businessInfo: BusinessInfo
   currentPage: number
   totalPages: number
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -95,6 +105,7 @@ export interface BlogPostProps {
   post: BlogPost
   businessInfo: BusinessInfo
   relatedPosts: BlogPost[]
+  media: MediaItem[]
   config: TemplateConfig
 }
 
@@ -104,7 +115,15 @@ export interface StaticPageProps {
   config: TemplateConfig
 }
 
+export interface TestimonialsPageProps {
+  businessInfo: BusinessInfo
+  testimonials: Testimonial[]
+  media: MediaItem[]
+  config: TemplateConfig
+}
+
 export interface TemplatePack {
+  manifest?: TemplateManifest
   Layout: React.FC<LayoutProps>
   Header: React.FC<HeaderProps>
   Footer: React.FC<FooterProps>
@@ -118,4 +137,5 @@ export interface TemplatePack {
   BlogPostPage: React.FC<BlogPostProps>
   PrivacyPage: React.FC<StaticPageProps>
   TermsPage: React.FC<StaticPageProps>
+  TestimonialsPage?: React.FC<TestimonialsPageProps>
 }

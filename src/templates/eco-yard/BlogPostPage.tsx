@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import type { BlogPostPageProps } from '@/types/template'
+import type { BlogPostProps } from '@/types/template'
 
 export function BlogPostPage({
   businessInfo,
@@ -8,7 +8,7 @@ export function BlogPostPage({
   post,
   media,
   config
-}: BlogPostPageProps) {
+}: BlogPostProps) {
 
   return (
     <div className="w-full bg-white">

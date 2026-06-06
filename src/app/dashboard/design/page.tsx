@@ -1,6 +1,8 @@
 import { getSettings } from '@/lib/settings';
 import { getTemplates } from './actions';
 import { DesignClient } from './DesignClient';
+import { DesignSettingsForm } from './DesignSettingsForm';
+import { loadTemplate } from '@/lib/template-loader';
 
 export const metadata = {
   title: 'Design | Dashboard',
@@ -8,6 +10,14 @@ export const metadata = {
 
 export default async function DesignPage() {
   const [settings, templates] = await Promise.all([getSettings(), getTemplates()]);
+
+  let activeManifest = undefined;
+  try {
+    const pack = await loadTemplate(settings.active_template);
+    activeManifest = pack.manifest;
+  } catch (e) {
+    // ignore
+  }
 
   return (
     <div className="space-y-8">
@@ -22,6 +32,13 @@ export default async function DesignPage() {
         templates={templates}
         activeTemplateId={settings.active_template}
       />
+
+      {activeManifest && (
+        <DesignSettingsForm 
+          manifest={activeManifest} 
+          initialSettings={settings} 
+        />
+      )}
     </div>
   );
 }

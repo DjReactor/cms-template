@@ -2,17 +2,21 @@ import Link from 'next/link'
 import type { HomePageProps } from '@/types/template'
 import { ContactForm } from '@/components/shared/ContactForm'
 import { StarRating } from '@/components/shared/StarRating'
+import { resolveImage, getMediaFileUrl } from '@/lib/images'
 
 export function HomePage({ businessInfo, resolvedCopy, services, serviceAreas, testimonials, media, config }: HomePageProps) {
+  const heroMedia = media?.find(m => m.category === 'hero');
+  const heroImage = resolveImage('hero_bg', getMediaFileUrl(heroMedia), config);
+
   return (
     <div>
       {/* Hero */}
       <section className="relative py-28 md:py-40 bg-gray-900 text-white overflow-hidden">
-        {media?.find(m => m.category === 'hero')?.url && (
+        {heroImage && (
           <>
             <div className="absolute inset-0 z-0">
               <img
-                src={media.find(m => m.category === 'hero')!.url}
+                src={heroImage}
                 alt="Hero background"
                 className="w-full h-full object-cover"
               />

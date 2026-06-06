@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { HomePageProps } from '@/types/template'
+import { resolveImage } from '@/lib/images'
 import { ContactForm } from '@/components/shared/ContactForm'
 import { StarRating } from '@/components/shared/StarRating'
 import { BeforeAfterSlider } from '@/components/shared/BeforeAfterSlider'
@@ -16,9 +17,9 @@ export function HomePage({
   config 
 }: HomePageProps) {
 
-  // Extract a hero image from media if available, or use placeholder
-  const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/699164a8407057ce8dde70466b6cf90a.webp'
+  const heroImage = resolveImage('hero_bg', '/assets/eco-yard/699164a8407057ce8dde70466b6cf90a.webp', config)
+  const aboutImage = resolveImage('about_us_main', '/assets/eco-yard/58b034415e24578b01eba384a7a63a00.webp', config)
+  const contactBgImage = resolveImage('contact_bg', '/assets/eco-yard/8da3caff9e07af4fe3aad4bea44e0275.webp', config)
 
   return (
     <div className="w-full">
@@ -71,7 +72,7 @@ export function HomePage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-xl w-full">
               <Image 
-                src="/assets/eco-yard/58b034415e24578b01eba384a7a63a00.webp"
+                src={aboutImage}
                 alt={businessInfo.business_name || 'About us'}
                 fill
                 className="object-cover"
@@ -315,7 +316,7 @@ export function HomePage({
       <section id="quote-section" className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/assets/eco-yard/8da3caff9e07af4fe3aad4bea44e0275.webp" 
+            src={contactBgImage}
             alt="CTA Background" 
             fill 
             className="object-cover"

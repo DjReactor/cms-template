@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { TestimonialsPageProps } from '@/types/template'
+import { getMediaFileUrl } from '@/lib/images'
 import { ContactForm } from '@/components/shared/ContactForm'
 import { StarRating } from '@/components/shared/StarRating'
 
@@ -13,7 +14,7 @@ export function TestimonialsPage({
 }: TestimonialsPageProps) {
 
   const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/e6a6a52bab91bd1e2e5691ff723d802b.webp'
+  const heroImage = getMediaFileUrl(heroMedia) || '/assets/eco-yard/e6a6a52bab91bd1e2e5691ff723d802b.webp'
 
   return (
     <div className="w-full">

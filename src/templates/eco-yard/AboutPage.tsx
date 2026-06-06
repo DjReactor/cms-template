@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { AboutPageProps } from '@/types/template'
+import { resolveImage } from '@/lib/images'
 import { BusinessHours } from '@/components/shared/BusinessHours'
 import { StarRating } from '@/components/shared/StarRating'
 import { ContactForm } from '@/components/shared/ContactForm'
@@ -15,8 +16,9 @@ export function AboutPage({
   config
 }: AboutPageProps) {
 
-  const heroMedia = media.find(m => m.category === 'hero')
-  const heroImage = heroMedia?.url || '/assets/eco-yard/c48972a4d96a33438459f173b9e864fd.webp'
+  const heroImage = resolveImage('hero_bg', '/assets/eco-yard/c48972a4d96a33438459f173b9e864fd.webp', config)
+  const aboutImage = resolveImage('about_us_main', '/assets/eco-yard/51738e065bea09eb000f9801e7d4219a.webp', config)
+  const contactBgImage = resolveImage('contact_bg', '/assets/eco-yard/8da3caff9e07af4fe3aad4bea44e0275.webp', config)
 
   return (
     <div className="w-full">
@@ -56,7 +58,7 @@ export function AboutPage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-xl">
               <Image 
-                src="/assets/eco-yard/51738e065bea09eb000f9801e7d4219a.webp"
+                src={aboutImage}
                 alt="About us"
                 fill
                 className="object-cover"
@@ -149,7 +151,7 @@ export function AboutPage({
                     </div>
                     <div>
                       <div className="text-sm text-gray-400">Location</div>
-                      <div className="font-bold text-lg">{businessInfo.city}, {businessInfo.state}</div>
+                      <div className="font-bold text-lg">{businessInfo.city}</div>
                     </div>
                   </div>
                   <div className="flex items-center">
@@ -212,7 +214,7 @@ export function AboutPage({
       <section id="quote-section" className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/assets/eco-yard/8da3caff9e07af4fe3aad4bea44e0275.webp" 
+            src={contactBgImage}
             alt="CTA Background" 
             fill 
             className="object-cover"

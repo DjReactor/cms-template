@@ -39,3 +39,27 @@ export async function activateTemplate(
     return { success: false, error: error.message || 'Failed to activate template.' };
   }
 }
+
+export async function saveImageOverrides(overrides: Record<string, string>) {
+  try {
+    await requireAuth();
+    const pb = await getPocketBaseClient();
+    const records = await pb.collection('settings').getFullList(1).catch(() => []);
+    
+    if (records.length > 0) {
+      const currentConfig = records[0].template_config || {};
+      await pb.collection('settings').update(records[0].id, {
+        template_config: {
+          ...currentConfig,
+          imageOverrides: overrides
+        }
+      });
+      revalidatePath('/', 'layout');
+      return { success: true };
+    }
+    return { success: false, error: 'Settings record not found' };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
