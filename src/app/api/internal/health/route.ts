@@ -21,7 +21,12 @@ export async function GET(req: Request) {
   try {
     const pb = await getPocketBaseClient();
     // Verify DB connection
-    await pb.collection('settings').getFirstListItem('');
+    try {
+      await pb.collection('settings').getFirstListItem('');
+    } catch (e: any) {
+      // 404 is fine (empty collection), anything else means PB is unreachable
+      if (e.status !== 404) throw e;
+    }
 
     return NextResponse.json({
       status: 'ok',

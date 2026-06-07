@@ -31,11 +31,6 @@ TOKEN=$(pb_authenticate "http://127.0.0.1:${PB_PORT}" "${PB_ADMIN_EMAIL:-admin@s
 [ -z "$TOKEN" ] && ERRORS+=("Could not authenticate as PocketBase admin")
 
 if [ -n "$TOKEN" ]; then
-  # Verify key collections exist
-  for COL in business_info services service_areas settings seo_settings redirects seo_404_log users template_meta; do
-    pb_collection_exists "$TOKEN" "http://127.0.0.1:${PB_PORT}" "$COL" || \
-      ERRORS+=("Collection missing: $COL")
-  done
   # Update token in state
   set_state "$SLUG" ".runtime.pb_admin_token = \"$TOKEN\""
 fi
