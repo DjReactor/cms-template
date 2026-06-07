@@ -1,0 +1,9 @@
+{
+  "niche_id": "electrician",
+  "niche_name": "Electrician",
+  "custom_attributes": [
+    { "key": "license_number", "label": "Electrician License Number", "type": "text" },
+    { "key": "panel_upgrades", "label": "Panel Upgrades Available", "type": "boolean" },
+    { "key": "ev_charging", "label": "EV Charging Installation", "type": "boolean" }
+  ]
+}

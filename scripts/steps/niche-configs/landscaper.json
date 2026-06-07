@@ -1,0 +1,9 @@
+{
+  "niche_id": "landscaper",
+  "niche_name": "Landscaper",
+  "custom_attributes": [
+    { "key": "design_services", "label": "Landscape Design Services", "type": "boolean" },
+    { "key": "irrigation_systems", "label": "Irrigation Systems", "type": "boolean" },
+    { "key": "seasonal_cleanups", "label": "Seasonal Cleanup Services", "type": "boolean" }
+  ]
+}

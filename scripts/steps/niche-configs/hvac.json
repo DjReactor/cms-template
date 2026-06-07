@@ -1,0 +1,9 @@
+{
+  "niche_id": "hvac",
+  "niche_name": "HVAC",
+  "custom_attributes": [
+    { "key": "equipment_brands", "label": "Equipment Brands Serviced", "type": "text" },
+    { "key": "service_contracts", "label": "Service Contracts Available", "type": "boolean" },
+    { "key": "emergency_service_fee", "label": "Emergency Service Fee", "type": "text" }
+  ]
+}

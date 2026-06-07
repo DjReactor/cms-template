@@ -18,6 +18,7 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
         template_config: records[0].template_config || {},
         lead_webhook_url:    records[0].lead_webhook_url    || '',
         lead_webhook_secret: records[0].lead_webhook_secret || '',
+        niche_schema: records[0].niche_schema || null,
       };
     }
   } catch (e) {
@@ -35,6 +36,7 @@ export const getSettings = cache(async (): Promise<TemplateSettings & { id: stri
     template_config: {},
     lead_webhook_url:    '',
     lead_webhook_secret: '',
+    niche_schema: null,
   };
 });
 

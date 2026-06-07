@@ -1,0 +1,9 @@
+{
+  "niche_id": "roofer",
+  "niche_name": "Roofer",
+  "custom_attributes": [
+    { "key": "roofing_materials", "label": "Roofing Materials Offered", "type": "text" },
+    { "key": "warranty_years", "label": "Warranty (Years)", "type": "number" },
+    { "key": "insurance_restoration", "label": "Insurance Restoration Services", "type": "boolean" }
+  ]
+}
