@@ -40,6 +40,13 @@ export async function middleware(request: NextRequest) {
     });
   }
 
+  // 4. PocketBase Image Proxy
+  if (pathname.startsWith('/api/files/')) {
+    const pbUrl = process.env.PB_URL || 'http://127.0.0.1:8090';
+    const destinationUrl = `${pbUrl}${pathname}${url.search}`;
+    return NextResponse.rewrite(new URL(destinationUrl));
+  }
+
   return NextResponse.next();
 }
 

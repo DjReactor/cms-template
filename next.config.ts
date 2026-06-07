@@ -22,14 +22,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb',
     },
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/files/:path*',
-        destination: `${process.env.PB_URL || 'http://127.0.0.1:8090'}/api/files/:path*`,
-      },
-    ];
-  },
+
 };
 
 export default nextConfig;
