@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useTransition } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { updateService } from '../actions';
@@ -46,6 +46,25 @@ export default function ServiceDetailForm({ initialData }: { initialData: any })
     }
   });
 
+  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(
+    initialData?.slug ? !initialData.slug.startsWith('new-service-') : false
+  );
+
+  const nameValue = watch('name');
+
+  useEffect(() => {
+    if (!isSlugManuallyEdited) {
+      const generatedSlug = (nameValue || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-');
+      setValue('slug', generatedSlug, { shouldValidate: true, shouldDirty: true });
+    }
+  }, [nameValue, isSlugManuallyEdited, setValue]);
+
+  const { onChange: onSlugChange, ...slugRest } = register('slug');
+
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = (data: FormData) => {
@@ -81,7 +100,15 @@ export default function ServiceDetailForm({ initialData }: { initialData: any })
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input label="Service Name" error={errors.name?.message} {...register('name')} />
-            <Input label="URL Slug" error={errors.slug?.message} {...register('slug')} />
+            <Input 
+              label="URL Slug" 
+              error={errors.slug?.message} 
+              {...slugRest} 
+              onChange={(e) => {
+                setIsSlugManuallyEdited(true);
+                onSlugChange(e);
+              }}
+            />
             <Textarea label="Short Description (Max 160 chars)" error={errors.short_description?.message} {...register('short_description')} className="md:col-span-2" />
           </div>
         </CardContent>
