@@ -11,6 +11,7 @@ fuser -k "${PB_PORT}/tcp" 2>/dev/null || true; sleep 1
 info "Running pending migrations..."
 "$BASE/pocketbase" migrate up \
   --dir "$BASE/pb_data" \
+  --migrationsDir "$BASE/pb_migrations" \
   --automigrate 2>&1
 RC=$?
 
