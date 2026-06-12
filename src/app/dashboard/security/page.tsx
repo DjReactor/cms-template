@@ -14,7 +14,7 @@ export default async function SecurityPage() {
 
   return (
     <div className="max-w-4xl">
-      <SecurityClient userRole={user.role} apiKeys={apiKeys} />
+      <SecurityClient userRole={user.role} userEmail={user.email} apiKeys={apiKeys} />
     </div>
   );
 }

@@ -8,15 +8,18 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { useToast } from '@/components/ui/Toast';
 import { Trash2, Copy, Check, Eye, EyeOff } from 'lucide-react';
 
-export function SecurityClient({ userRole, apiKeys }: { userRole: string, apiKeys: any[] }) {
+export function SecurityClient({ userRole, userEmail, apiKeys }: { userRole: string, userEmail: string, apiKeys: any[] }) {
   const { addToast } = useToast();
   const [isPendingKeys, startTransitionKeys] = useTransition();
   const [isPendingCreds, startTransitionCreds] = useTransition();
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { handleSubmit: handleApiKeySubmit, register: registerApiKey, reset: resetApiKey } = useForm();
-  const { handleSubmit: handleCredsSubmit, register: registerCreds, reset: resetCreds } = useForm();
+  const { handleSubmit: handleCredsSubmit, register: registerCreds, reset: resetCreds } = useForm({
+    defaultValues: { email: userEmail, password: '', confirmPassword: '' }
+  });
 
   const onGenerateKey = (data: any) => {
     if (!data.title) return addToast({ title: 'Title required', type: 'error' });
@@ -44,11 +47,14 @@ export function SecurityClient({ userRole, apiKeys }: { userRole: string, apiKey
   };
 
   const onUpdateCredentials = (data: any) => {
+    if (data.password && data.password !== data.confirmPassword) {
+      return addToast({ title: 'Passwords do not match', type: 'error' });
+    }
     startTransitionCreds(async () => {
       const res = await updateCredentials(data.email, data.password);
       if (res.success) {
         addToast({ title: 'Credentials updated', type: 'success' });
-        resetCreds();
+        resetCreds({ email: data.email, password: '', confirmPassword: '' });
       } else {
         addToast({ title: 'Error updating credentials', description: res.error, type: 'error' });
       }
@@ -159,6 +165,26 @@ export function SecurityClient({ userRole, apiKeys }: { userRole: string, apiKey
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Confirm Password</label>
+              <div className="relative">
+                <Input 
+                  type={showConfirmPassword ? "text" : "password"} 
+                  placeholder="Confirm new password" 
+                  minLength={8} 
+                  {...registerCreds('confirmPassword')} 
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
