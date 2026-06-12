@@ -80,21 +80,27 @@ export async function updateSeoSettings(data: any) {
   }
 }
 
-export async function updateSiteContent(page: string, copyData: any) {
+export async function updateCopyOverrides(overrides: Record<string, string>) {
   try {
     await requireAuth();
     const pb = await getPocketBaseClient();
-    const records = await pb.collection('site_content').getFullList({ filter: `page = "${page}"` }).catch(() => []);
-    
-    if (records.length > 0) {
-      await pb.collection('site_content').update(records[0].id, { copy_data: copyData });
-    } else {
-      await pb.collection('site_content').create({ page, copy_data: copyData });
-    }
-    
-    revalidatePath(`/${page === 'home' ? '' : page}`);
+    const record = await pb.collection('settings').getFirstListItem('');
+
+    // Merge with existing template_config to preserve imageOverrides and any other keys
+    const existingConfig = record.template_config || {};
+    const updatedConfig = {
+      ...existingConfig,
+      copyOverrides: overrides,
+    };
+
+    await pb.collection('settings').update(record.id, {
+      template_config: updatedConfig,
+    });
+
+    revalidatePath('/', 'layout');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
+

@@ -108,10 +108,23 @@ export interface TemplateImageSlot {
   defaultFallback: string
 }
 
+/**
+ * Describes one user-editable text slot declared by a template.
+ * Used by the dashboard to dynamically generate the Site Content editor.
+ */
+export interface TemplateCopyKey {
+  label: string               // Human-readable label shown in the dashboard
+  default: string             // Default value — may include {{tokens}}
+  type?: 'text' | 'textarea'  // 'text' for short strings, 'textarea' for paragraphs
+  page?: string               // Tab grouping label e.g. "Home Page", "About Page"
+  hint?: string               // Optional helper text shown below the input
+}
+
 export interface TemplateManifest {
   name: string
   slug: string
   supportedImageKeys: Record<string, TemplateImageSlot>
+  supportedCopyKeys?: Record<string, TemplateCopyKey>
 }
 
 export interface SeoSettings {
@@ -132,6 +145,7 @@ export interface TemplateSettings {
   lead_webhook_url?: string
   template_config?: {
     imageOverrides?: Record<string, string>
+    copyOverrides?: Record<string, string>   // User-saved overrides for template copy slots
     [key: string]: any
   }
   niche_schema?: NicheSchema

@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useTransition, useState, useEffect } from 'react';
+import { useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { updateServiceArea } from '../actions';
@@ -52,25 +52,6 @@ export default function ServiceAreaDetailForm({ initialData }: { initialData: an
     }
   });
 
-  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(
-    initialData?.slug ? !initialData.slug.startsWith('new-area-') : false
-  );
-
-  const nameValue = watch('name');
-
-  useEffect(() => {
-    if (!isSlugManuallyEdited) {
-      const generatedSlug = (nameValue || '')
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-');
-      setValue('slug', generatedSlug, { shouldValidate: true, shouldDirty: true });
-    }
-  }, [nameValue, isSlugManuallyEdited, setValue]);
-
-  const { onChange: onSlugChange, ...slugRest } = register('slug');
-
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = (data: FormData) => {
@@ -106,15 +87,7 @@ export default function ServiceAreaDetailForm({ initialData }: { initialData: an
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input label="Area Name (e.g. Austin)" error={errors.name?.message} {...register('name')} />
-            <Input 
-              label="URL Slug" 
-              error={errors.slug?.message} 
-              {...slugRest} 
-              onChange={(e) => {
-                setIsSlugManuallyEdited(true);
-                onSlugChange(e);
-              }}
-            />
+            <Input label="URL Slug" error={errors.slug?.message} {...register('slug')} />
             <Input label="Custom H1 Headline" placeholder="Leaves blank for default" error={errors.custom_h1?.message} {...register('custom_h1')} className="md:col-span-2" />
             <Textarea label="Custom Intro Paragraph" placeholder="Leaves blank for default" error={errors.custom_intro?.message} {...register('custom_intro')} className="md:col-span-2" />
           </div>

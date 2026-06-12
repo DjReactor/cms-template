@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useTransition, useState, useEffect } from 'react';
+import { useTransition, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { updateBlogPost, createBlogPost } from '../actions';
@@ -49,26 +49,13 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
     }
   });
 
-  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(
-    initialData?.slug ? !initialData.slug.startsWith('new-post-') : false
-  );
-
   const titleValue = watch('title');
-
   useEffect(() => {
-    if (!isSlugManuallyEdited) {
-      const generatedSlug = (titleValue || '')
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-');
-      setValue('slug', generatedSlug, { shouldValidate: true, shouldDirty: true });
+    if (!dirtyFields.slug && titleValue) {
+      const slug = titleValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      setValue('slug', slug, { shouldValidate: true, shouldDirty: false });
     }
-  }, [titleValue, isSlugManuallyEdited, setValue]);
-
-  const { onChange: onSlugChange, ...slugRest } = register('slug');
-
-
+  }, [titleValue, dirtyFields.slug, setValue]);
 
   const [isPending, startTransition] = useTransition();
 
@@ -100,15 +87,7 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input label="Post Title" error={errors.title?.message} {...register('title')} />
-            <Input 
-              label="URL Slug" 
-              error={errors.slug?.message} 
-              {...slugRest} 
-              onChange={(e) => {
-                setIsSlugManuallyEdited(true);
-                onSlugChange(e);
-              }}
-            />
+            <Input label="URL Slug" error={errors.slug?.message} {...register('slug')} />
             <Textarea label="Excerpt (Max 200 chars)" error={errors.excerpt?.message} {...register('excerpt')} className="md:col-span-2" />
           </div>
         </CardContent>

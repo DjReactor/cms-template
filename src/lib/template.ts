@@ -1,8 +1,10 @@
 import { BusinessInfo } from '@/types';
+import type { TemplateCopyKey } from '@/types';
 
 /**
  * Resolves standard template variables inside a string.
  * Example: "Welcome to {{business_name}}" -> "Welcome to Apex Plumbing"
+ * Empty businessInfo fields resolve to '' silently — no errors thrown.
  */
 export function resolveTemplateTokens(text: string, businessInfo: BusinessInfo): string {
   if (!text) return '';
@@ -15,7 +17,9 @@ export function resolveTemplateTokens(text: string, businessInfo: BusinessInfo):
 }
 
 /**
- * Convenience method to resolve multiple strings at once
+ * Convenience method to resolve multiple strings at once.
+ * @deprecated Prefer buildResolvedCopy for new route files — it reads defaults
+ * from the template manifest and merges user overrides automatically.
  */
 export function resolveCopyObject(copyMap: Record<string, string>, businessInfo: BusinessInfo): Record<string, string> {
   const resolved: Record<string, string> = {};
@@ -24,3 +28,30 @@ export function resolveCopyObject(copyMap: Record<string, string>, businessInfo:
   }
   return resolved;
 }
+
+/**
+ * Builds the final resolvedCopy map for a page by merging user overrides with
+ * template manifest defaults, then resolving {{tokens}} against businessInfo.
+ *
+ * Priority: user override → manifest default → ''
+ * Empty businessInfo fields (e.g. empty phone) resolve to '' silently.
+ *
+ * @param supportedCopyKeys - The template manifest's copy key definitions
+ * @param copyOverrides     - User-saved overrides from settings.template_config.copyOverrides
+ * @param businessInfo      - Live business data for token replacement
+ */
+export function buildResolvedCopy(
+  supportedCopyKeys: Record<string, TemplateCopyKey> | undefined,
+  copyOverrides: Record<string, string> | undefined,
+  businessInfo: BusinessInfo
+): Record<string, string> {
+  if (!supportedCopyKeys) return {};
+
+  const result: Record<string, string> = {};
+  for (const [key, definition] of Object.entries(supportedCopyKeys)) {
+    const raw = copyOverrides?.[key] || definition.default || '';
+    result[key] = resolveTemplateTokens(raw, businessInfo);
+  }
+  return result;
+}
+

@@ -24,8 +24,76 @@ export const manifest: TemplateManifest = {
       label: "Main Hero Background", 
       defaultFallback: "" 
     }
+  },
+  supportedCopyKeys: {
+    // ── Home Page ──────────────────────────────────────────────────────────
+    "hero_h1": {
+      label: "Hero Headline",
+      default: "The Best {{business_type}} in {{city}}",
+      type: "text",
+      page: "Home Page",
+      hint: "The main heading visitors see first."
+    },
+    "hero_subtitle": {
+      label: "Hero Subtitle",
+      default: "Fast. Reliable. Local.",
+      type: "text",
+      page: "Home Page"
+    },
+    "cta_primary": {
+      label: "Primary CTA Button",
+      default: "Get a Free Quote",
+      type: "text",
+      page: "Home Page"
+    },
+    "cta_secondary": {
+      label: "Secondary CTA Button",
+      default: "Call {{phone}}",
+      type: "text",
+      page: "Home Page"
+    },
+    "about_heading": {
+      label: "About Section Heading",
+      default: "Why {{city}} Trusts {{business_name}}",
+      type: "text",
+      page: "Home Page"
+    },
+    // ── About Page ─────────────────────────────────────────────────────────
+    "about_page_heading": {
+      label: "About Page Heading",
+      default: "About {{business_name}}",
+      type: "text",
+      page: "About Page"
+    },
+    // ── Contact Page ───────────────────────────────────────────────────────
+    "contact_heading": {
+      label: "Contact Page Heading",
+      default: "Get in Touch",
+      type: "text",
+      page: "Contact Page"
+    },
+    "contact_subheading": {
+      label: "Contact Page Subheading",
+      default: "Reach out to {{business_name}} today.",
+      type: "text",
+      page: "Contact Page"
+    },
+    // ── Services Page ──────────────────────────────────────────────────────
+    "services_heading": {
+      label: "Services Page Heading",
+      default: "Our {{business_type}} Services",
+      type: "text",
+      page: "Services Page"
+    },
+    "services_intro": {
+      label: "Services Page Intro",
+      default: "Professional and reliable solutions for your needs.",
+      type: "textarea",
+      page: "Services Page"
+    }
   }
 }
+
 
 const templatePack: TemplatePack = {
   manifest,

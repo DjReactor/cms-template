@@ -1,7 +1,7 @@
 import { loadTemplate } from "@/lib/template-loader";
 import { getSettings, getBusinessInfo } from "@/lib/settings";
 import { getPocketBaseClient } from "@/lib/pocketbase";
-import { resolveCopyObject } from "@/lib/template";
+import { buildResolvedCopy } from "@/lib/template";
 import type { Service, ServiceArea, Testimonial, MediaItem, BeforeAfterPair } from "@/types";
 
 export default async function HomePageWrapper() {
@@ -23,15 +23,10 @@ export default async function HomePageWrapper() {
     beforeAfterPairs = await pb.collection('before_after_pairs').getFullList<BeforeAfterPair>({ filter: 'is_active = true', sort: 'sort_order' });
   } catch(e) {}
 
-  const resolvedCopy = resolveCopyObject({
-    hero_h1: `The Best {{business_type}} in {{city}}`,
-    hero_subtitle: 'Fast. Reliable. Local.',
-    cta_primary: 'Get a Free Quote',
-    cta_secondary: 'Call {{phone}}',
-    about_heading: `Why {{city}} Trusts {{business_name}}`
-  }, businessInfo);
-
   const template = await loadTemplate(settings.active_template);
+  const copyOverrides = settings.template_config?.copyOverrides || {};
+  const resolvedCopy = buildResolvedCopy(template.manifest?.supportedCopyKeys, copyOverrides, businessInfo);
+
   const HomePageComponent = template.HomePage;
 
   return (
@@ -47,3 +42,4 @@ export default async function HomePageWrapper() {
     />
   );
 }
+
