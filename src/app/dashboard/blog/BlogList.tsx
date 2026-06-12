@@ -1,6 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
-import { deleteBlogPost, createBlogPost } from './actions';
+import { deleteBlogPost } from './actions';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';
@@ -14,16 +14,7 @@ export function BlogList({ initialPosts }: { initialPosts: any[] }) {
   const { addToast } = useToast();
   const router = useRouter();
 
-  const handleCreate = async () => {
-    startTransition(async () => {
-      try {
-        const id = await createBlogPost();
-        router.push(`/dashboard/blog/${id}`);
-      } catch (e: any) {
-        addToast({ title: 'Error creating post', description: e.message, type: 'error' });
-      }
-    });
-  };
+
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
@@ -39,10 +30,12 @@ export function BlogList({ initialPosts }: { initialPosts: any[] }) {
   return (
     <div className="space-y-6">
       <div className="flex justify-end">
-        <Button onClick={handleCreate} isLoading={isPending}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create Post
-        </Button>
+        <Link href="/dashboard/blog/new">
+          <Button>
+            <Plus className="h-4 w-4 mr-2" />
+            Create Post
+          </Button>
+        </Link>
       </div>
       
       <div className="bg-white rounded-xl border border-slate-200/60 shadow-sm overflow-hidden">

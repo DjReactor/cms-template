@@ -30,19 +30,29 @@ export async function getBlogPost(id: string) {
   return pb.collection('blog_posts').getOne(id).catch(() => null);
 }
 
-export async function createBlogPost() {
-  await requireAuth();
-  const pb = await getPocketBaseClient();
-  
-  const record = await pb.collection('blog_posts').create({
-    title: 'New Blog Post',
-    slug: `new-post-${Date.now()}`,
-    status: 'draft',
-    author_type: 'manual'
-  });
-  
-  revalidatePath('/dashboard/blog');
-  return record.id;
+export async function createBlogPost(data: any) {
+  try {
+    await requireAuth();
+    const parsedData = blogSchema.parse(data);
+    
+    if (parsedData.status === 'published') {
+      (parsedData as any).published_at = new Date().toISOString();
+    }
+    (parsedData as any).author_type = 'manual';
+    
+    const pb = await getPocketBaseClient();
+    const record = await pb.collection('blog_posts').create(parsedData);
+    
+    revalidatePath('/dashboard/blog');
+    revalidatePath('/blog');
+    
+    return { success: true, id: record.id };
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return { success: false, error: error.errors[0].message };
+    }
+    return { success: false, error: error.message || 'An unexpected error occurred' };
+  }
 }
 
 export async function updateBlogPost(id: string, data: any) {

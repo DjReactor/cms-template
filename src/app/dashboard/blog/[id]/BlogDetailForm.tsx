@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTransition, useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { updateBlogPost } from '../actions';
+import { updateBlogPost, createBlogPost } from '../actions';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
@@ -33,7 +33,7 @@ type FormData = z.infer<typeof schema>;
 export default function BlogDetailForm({ initialData }: { initialData: any }) {
   const { addToast } = useToast();
   const router = useRouter();
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, formState: { errors, dirtyFields } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: initialData?.title || '',
@@ -68,13 +68,26 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
 
   const { onChange: onSlugChange, ...slugRest } = register('slug');
 
+  const titleValue = watch('title');
+  useEffect(() => {
+    if (!dirtyFields.slug && titleValue) {
+      const slug = titleValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      setValue('slug', slug, { shouldValidate: true, shouldDirty: false });
+    }
+  }, [titleValue, dirtyFields.slug, setValue]);
+
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = (data: FormData) => {
     startTransition(async () => {
-      const res = await updateBlogPost(initialData.id, data);
+      let res;
+      if (initialData.id === 'new') {
+        res = await createBlogPost(data);
+      } else {
+        res = await updateBlogPost(initialData.id, data);
+      }
       if (res.success) {
-        addToast({ title: 'Post updated', type: 'success' });
+        addToast({ title: initialData.id === 'new' ? 'Post created' : 'Post updated', type: 'success' });
         router.push('/dashboard/blog');
       } else {
         addToast({ title: 'Error saving', description: res.error, type: 'error' });
@@ -90,19 +103,7 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
           <CardDescription>Core details about this post.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200/60">
-            <div>
-              <p className="font-medium text-slate-900">Publish Status</p>
-              <p className="text-sm text-slate-500">Only published posts appear on the blog index</p>
-            </div>
-            <div className="w-48">
-              <Select {...register('status')} className="py-2">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-              </Select>
-            </div>
-          </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input label="Post Title" error={errors.title?.message} {...register('title')} />
             <Input 
@@ -156,9 +157,29 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
         </CardContent>
       </Card>
 
-      <div className="flex justify-end pt-4 pb-12">
-        <Button type="submit" isLoading={isPending} size="lg">
-          Save Post
+      <div className="flex justify-end gap-4 pt-4 pb-12">
+        <Button 
+          type="button" 
+          variant="outline" 
+          isLoading={isPending} 
+          size="lg"
+          onClick={() => {
+            setValue('status', 'draft');
+            handleSubmit(onSubmit)();
+          }}
+        >
+          Save Draft
+        </Button>
+        <Button 
+          type="button" 
+          isLoading={isPending} 
+          size="lg"
+          onClick={() => {
+            setValue('status', 'published');
+            handleSubmit(onSubmit)();
+          }}
+        >
+          {initialData.status === 'published' ? 'Update Published Post' : 'Publish'}
         </Button>
       </div>
     </form>
