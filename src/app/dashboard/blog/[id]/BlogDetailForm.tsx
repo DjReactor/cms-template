@@ -68,13 +68,7 @@ export default function BlogDetailForm({ initialData }: { initialData: any }) {
 
   const { onChange: onSlugChange, ...slugRest } = register('slug');
 
-  const titleValue = watch('title');
-  useEffect(() => {
-    if (!dirtyFields.slug && titleValue) {
-      const slug = titleValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-      setValue('slug', slug, { shouldValidate: true, shouldDirty: false });
-    }
-  }, [titleValue, dirtyFields.slug, setValue]);
+
 
   const [isPending, startTransition] = useTransition();
 
