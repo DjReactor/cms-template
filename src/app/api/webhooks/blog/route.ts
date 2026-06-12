@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
   const payload = await req.text();
 
-  if (!authenticateWebhook(req, payload, secret)) {
+  if (!(await authenticateWebhook(req, payload, secret))) {
     return NextResponse.json({ error: 'Unauthorized: Invalid signature or missing API key' }, { status: 401 });
   }
 

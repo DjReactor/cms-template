@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { 
   LayoutDashboard, Building2, Wrench, MapPin, 
   FileText, LineChart, Settings as SettingsIcon,
-  MessageSquare, Phone, Star, ShieldAlert, Palette
+  MessageSquare, Phone, Star, ShieldAlert, Palette, Key
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -112,6 +112,18 @@ export function Sidebar({ settings, userRole }: SidebarProps) {
             >
               <SettingsIcon className="h-4 w-4 text-slate-400 shrink-0" />
               Platform Settings
+            </Link>
+            <Link
+              href="/dashboard/security"
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+                pathname.startsWith('/dashboard/security')
+                  ? 'bg-blue-600/10 text-blue-400' 
+                  : 'hover:bg-slate-800/50 hover:text-white'
+              )}
+            >
+              <Key className={cn('h-4 w-4 shrink-0', pathname.startsWith('/dashboard/security') ? 'text-blue-400' : 'text-slate-400')} />
+              Security
             </Link>
             {userRole === 'agency_admin' && (
               <Link
