@@ -1,6 +1,7 @@
 'use client';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 export function TopBar({ userDisplayName, userRole }: { userDisplayName: string, userRole: string }) {
   return (
@@ -11,6 +12,10 @@ export function TopBar({ userDisplayName, userRole }: { userDisplayName: string,
             Agency Admin Mode
           </span>
         )}
+        <Link href="/" target="_blank" className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100 px-3 py-1.5 rounded-md transition-colors">
+          <Globe className="h-4 w-4" />
+          View Website
+        </Link>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3 text-sm font-medium text-slate-700">
