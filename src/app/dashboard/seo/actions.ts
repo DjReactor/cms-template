@@ -27,7 +27,7 @@ export async function updateSeoSettings(id: string, data: any) {
 
 export async function getRedirects() {
   const pb = await getPocketBaseClient();
-  return pb.collection('redirects').getFullList({ sort: '-created' }).catch(() => []);
+  return pb.collection('redirects').getFullList({ sort: '-id' }).catch(() => []);
 }
 
 export async function createRedirect(data: any) {

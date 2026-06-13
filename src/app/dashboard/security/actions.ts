@@ -11,7 +11,7 @@ export async function getApiKeys() {
   
   try {
     const keys = await pb.collection('api_keys').getFullList({
-      sort: '-created'
+      sort: '-id'
     });
     return keys;
   } catch (error) {

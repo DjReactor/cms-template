@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 export async function getContacts() {
   const pb = await getPocketBaseClient();
   return pb.collection('contacts').getFullList({
-    sort: '-created',
+    sort: '-id',
   }).catch(() => []);
 }
 

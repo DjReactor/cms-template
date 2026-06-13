@@ -21,7 +21,7 @@ const blogSchema = z.object({
 export async function getBlogPosts() {
   const pb = await getPocketBaseClient();
   return pb.collection('blog_posts').getFullList({
-    sort: '-created',
+    sort: '-published_at',
   }).catch(() => []);
 }
 
