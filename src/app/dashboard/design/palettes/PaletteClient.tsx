@@ -69,17 +69,15 @@ export function PaletteClient({ palettes: initialPalettes, activePaletteId: init
           
           return (
             <div key={p.id} className={`border rounded-xl overflow-hidden bg-white ${isActive ? 'ring-2 ring-blue-500' : 'hover:shadow-md transition-shadow'}`}>
-              <div className="flex flex-col h-24">
-                <div className="flex h-12">
-                  {SWATCH_DISPLAY_ORDER.slice(0, 5).map(key => (
-                    <div key={key} className="flex-1 group relative" style={{ backgroundColor: p.colors[key] }} title={`${COLOR_SLOTS[key].label}: ${p.colors[key]}`} />
-                  ))}
-                </div>
-                <div className="flex h-12">
-                  {SWATCH_DISPLAY_ORDER.slice(5, 10).map(key => (
-                    <div key={key} className="flex-1 group relative" style={{ backgroundColor: p.colors[key] }} title={`${COLOR_SLOTS[key].label}: ${p.colors[key]}`} />
-                  ))}
-                </div>
+              <div className="flex flex-wrap h-24 overflow-hidden">
+                {SWATCH_DISPLAY_ORDER.map(key => (
+                  <div
+                    key={key}
+                    className="flex-1 min-w-[4%] group relative"
+                    style={{ backgroundColor: p.colors[key] }}
+                    title={`${COLOR_SLOTS[key].label}: ${p.colors[key]}`}
+                  />
+                ))}
               </div>
               <div className="p-4 flex items-center justify-between">
                 <div>
@@ -144,7 +142,7 @@ export function PaletteClient({ palettes: initialPalettes, activePaletteId: init
                         value={editPalette.colors![key]} 
                         onChange={e => {
                           const val = e.target.value;
-                          if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                          if (/^#[0-9A-Fa-f]{0,8}$/.test(val)) {
                              setEditPalette({
                               ...editPalette, 
                               colors: { ...editPalette.colors!, [key]: val }

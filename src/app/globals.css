@@ -1,16 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --sf-brand:       #B9FF24;
-  --sf-brand-text:  #0D1F05;
-  --sf-accent:      #7CC504;
-  --sf-bg:          #0D1F05;
-  --sf-surface:     #162B0B;
-  --sf-surface-alt: #1E3810;
-  --sf-text:        #E5F5D5;
-  --sf-text-muted:  #7A9E6A;
-  --sf-border:      #284B16;
-  --sf-heading:     #FFFFFF;
+  /* ── Backgrounds & Surfaces ───────────────────────── */
+  --sf-bg:            #0D1F05;
+  --sf-surface:       #162B0B;
+  --sf-surface-alt:   #1E3810;
+  --sf-surface-hover: #203D12;
+  --sf-input-bg:      #162B0B;
+
+  /* ── Text ─────────────────────────────────────────── */
+  --sf-text:          #E5F5D5;
+  --sf-text-muted:    #7A9E6A;
+  --sf-heading:       #FFFFFF;
+  --sf-text-on-alt:   #E5F5D5;
+
+  /* ── Borders ──────────────────────────────────────── */
+  --sf-border:        #284B16;
+  --sf-input-border:  #3A5C20;
+  --sf-border-focus:  #B9FF24;
+
+  /* ── Brand & Interactive ──────────────────────────── */
+  --sf-brand:         #B9FF24;
+  --sf-brand-hover:   #9ED918;
+  --sf-brand-text:    #0D1F05;
+  --sf-accent:        #7CC504;
+  --sf-link:          #B9FF24;
+
+  /* ── Semantic States ──────────────────────────────── */
+  --sf-success:       #22C55E;
+  --sf-error:         #EF4444;
+  --sf-warning:       #F59E0B;
+  --sf-star:          #FBBF24;
+
+  /* ── Overlays & Shadows ───────────────────────────── */
+  --sf-shadow:        #00000066;
+  --sf-overlay:       #00000099;
 }
 
 @theme inline {
